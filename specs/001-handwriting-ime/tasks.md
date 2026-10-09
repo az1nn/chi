@@ -1,12 +1,12 @@
 # Tasks — Feature 001
 
-**State:** PLANNED; governance T001–T003 and decision T005 completed. Android runtime not implemented.
+**State:** PLANNED; governance T001–T005 completed (official Spec Kit 0.12.11 imported). Android runtime not implemented.
 
 ## Phase 0 — Governance / setup
 - [x] T001 [P] Record Chi constitution and first feature spec, plan, task ledger in Git.
 - [x] T002 [P] Add portable SIGA adapter and Android IME specialist skill.
 - [x] T003 Create repository document guardrails and a reviewable foundation PR.
-- [ ] T004 Run official Spec Kit CLI bootstrap on a local checkout and commit generated integration/templates.
+- [x] T004 Run official GitHub Spec Kit CLI 0.12.11 in a clean GitHub Actions checkout and commit upstream-generated Copilot skills, templates, scripts and manifests (commit `6319c7a`; run `37991571999` SUCCESS); no hand-copied commands.
 - [x] T005 Resolve OFFLINE-001 = B (approved 2026-10-09) and update spec, plan, ADR and tasks; no vendor selection implied.
 
 ## Phase 1 — Minimum native keyboard (US1)
@@ -32,4 +32,4 @@
 - [ ] T019 Converge spec / plan / tasks / ADR / observed behavior; final handoff.
 
 ## Dependencies
-T005 is complete (OFFLINE-001=B); T004 (official Spec Kit CLI bootstrap) remains incomplete and precedes Kotlin implementation. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T006..T012 precede T014..T018. Preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
+T004 (official Spec Kit integration) and T005 (OFFLINE-001=B) are complete; T006 (native Kotlin/Gradle setup) is the next implementation task after verifying project SDK/toolchain constraints. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T006..T012 precede T014..T018. Preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
