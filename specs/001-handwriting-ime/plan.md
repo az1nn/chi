@@ -10,7 +10,7 @@ Android keyboard (InputMethodService)
     ├── InkSession (ordered strokes + clear/undo)
     ├── RecognitionCoordinator (cancel/stale-result protection)
     │      └── InkRecognizer interface
-    │            └── model-specific adapter (BLOCKED: OFFLINE-001)
+    │            └── model-specific adapter (selection pending T013)
     └── EditorGateway (InputConnection; commit / delete / space)
 ```
 
@@ -25,23 +25,25 @@ Start as one Android app module with package boundaries; avoid modules or depend
 
 ## Android and recognition decision
 - IME-hosted handwriting canvas is baseline for widest compatibility; OS stylus handwriting callbacks are an optional separate adapter on API 33+.
-- Google ML Kit Digital Ink is a leading **candidate**, not yet accepted: language models are downloaded before recognition and inference is then on-device.
-- OFFLINE-001=A may require evaluation of redistributable bundled models or a different engine. Do not assert Google ML Kit meets cold-install offline.
+- **OFFLINE-001 = B (approved 2026-10-09):** first-run model download may use network after explicit user action; subsequent recognition must be on-device and usable in airplane mode. Cold-install offline recognition is out of scope.
+- Google ML Kit Digital Ink remains a leading **candidate**, not an approved dependency. T013 must verify current pt-BR model support, supported script/language identifiers, licensing, model size/download API and minimum SDK before adapter selection.
+- Define model readiness as `NOT_INSTALLED → DOWNLOADING → READY` with `FAILED`, retry and cancellation paths. The UI must distinguish downloading a language model from sending handwriting, which is prohibited.
+- Never silently download, auto-switch to cloud inference, or commit stale candidates on model/focus changes.
 - Choose compile/min SDK and exact Gradle/Kotlin dependency versions from current official documentation during implementation; pin them in the actual build, not in this draft.
 
 ## Verification strategy
 1. Static specifications and skill contract checks via `python3 scripts/verify_repo.py`.
 2. Once Android files exist: Gradle lint/test/build on pinned Android toolchain.
 3. Emulator/device input-method enable/switch, focus-change and `InputConnection` tests.
-4. Pen stroke and recognition tests under airplane mode and absent-model states.
+4. Pen stroke and recognition tests in airplane mode **after a ready local model**, plus cold-install offline behavior (explicit setup state and no inference/network fallback), failed/canceled/retried model download, and privacy/no-stroke-upload evidence.
 5. p95 latency sample with explicit device/OS, number of strokes, model and test corpus.
 
 ## Risks
-- R1: first-launch offline model availability (blocking).
+- R1: user cannot recognize ink before an initial model download (accepted V1 constraint); setup progress, retry, storage availability and no-network UX require testing.
 - R2: IME accessibility and OEM/Android behavior variance.
 - R3: sensitive input privacy/focus races.
 - R4: stylus callback support differs from IME-hosted drawing surface.
 
 ## Gates
-- Human: resolve OFFLINE-001; confirm device baseline if needed.
+- Human: OFFLINE-001 approved as option B on 2026-10-09; preserve any separate architecture/device/PR review or merge gates when they arise.
 - Automated: no app build exists yet; CI only validates repository governance.

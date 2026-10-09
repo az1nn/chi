@@ -2,7 +2,7 @@
 
 **Chi** é um projeto Android nativo em **Kotlin**: um teclado (IME) minimalista para escrever com caneta e converter traços em texto, com prioridade para processamento no dispositivo.
 
-> Estado: **foundation/spec only**. Ainda não existe APK, código Android ou reconhecimento funcional. A decisão sobre disponibilidade offline na primeira instalação está aberta.
+> Estado: **foundation/spec only**. Ainda não existe APK, código Android ou reconhecimento funcional. **OFFLINE-001=B** aprovado: um download inicial e explícito do modelo é permitido; depois o reconhecimento deverá operar offline. O motor ainda não foi escolhido.
 
 ## Norte do produto
 

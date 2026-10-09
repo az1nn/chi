@@ -17,5 +17,7 @@ Unit tests, lint, Android build, instrumented IME interaction tests, offline-mod
 ## V. Clear ownership and reproducibility
 Current Git state and source files outrank handoff and chat. Persist decisions in ADRs and feature artifacts. SIGA orchestrates continuation and concurrency; Android IME owns technical execution. External recognition engines are adapters, not product dependencies hidden throughout the code. No automatic release or merge bypassing pending human gates.
 
-## Open constitutional decision
-`OFFLINE-001`: Does Chi need recognition with **zero prior network connection**, including first installation, or is one explicit language-model download acceptable before permanently offline recognition? This affects vendor selection, APK size and first-run UX. Resolve in grilling before choosing the recognition adapter.
+## Recorded product decision (not constitution ratification)
+`OFFLINE-001 = B` — approved in grilling on 2026-10-09. An explicit, user-initiated initial language-model download is allowed. After model readiness, inference must remain entirely on-device and work offline; input strokes and recognized text must never be uploaded for recognition. First-run without a model must show a setup/unavailable state. A recognizer and its exact SDK remain unselected until validated in Feature 001's technical plan.
+
+This choice does **not** ratify this draft constitution or authorize merging the PR.

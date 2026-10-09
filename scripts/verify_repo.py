@@ -36,8 +36,19 @@ spec = ROOT / "specs/001-handwriting-ime/spec.md"
 tasks = ROOT / "specs/001-handwriting-ime/tasks.md"
 if spec.is_file() and "OFFLINE-001" not in spec.read_text(encoding="utf-8"):
     errors.append("spec missing model offline human gate OFFLINE-001")
-if tasks.is_file() and not re.search(r"(?m)^- \[ \] T005\b", tasks.read_text(encoding="utf-8")):
-    errors.append("T005 offline decision must remain unchecked until resolved")
+if tasks.is_file() and not re.search(r"(?m)^- \[x\] T005\b", tasks.read_text(encoding="utf-8")):
+    errors.append("T005 must be checked after OFFLINE-001=B approval")
+for rel in (
+    "specs/001-handwriting-ime/spec.md",
+    "specs/001-handwriting-ime/plan.md",
+    "specs/001-handwriting-ime/tasks.md",
+    "docs/adr/0001-native-ime-boundaries.md",
+    ".specify/memory/constitution.md",
+    "docs/handoffs/chi-foundation.md",
+):
+    path = ROOT / rel
+    if path.is_file() and not re.search(r"OFFLINE-001\s*(?:=|—|\s)[^\n]{0,90}B", path.read_text(encoding="utf-8")):
+        errors.append(f"missing OFFLINE-001 decision B trace: {rel}")
 if (ROOT / ".github/skills/godot").exists():
     errors.append("unrelated Godot skill must not be copied into Chi")
 
