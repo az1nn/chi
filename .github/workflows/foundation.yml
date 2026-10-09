@@ -16,3 +16,48 @@ jobs:
           python-version: "3.12"
       - name: Verify repository foundation contracts (not Android runtime)
         run: python3 scripts/verify_repo.py
+
+  spec-kit-bootstrap-preview:
+    # T004 preflight only: never push upstream-generated files or mark the bootstrap complete.
+    if: github.event_name == 'pull_request' && github.event.pull_request.number == 1
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install documented official Spec Kit release
+        run: python -m pip install --disable-pip-version-check specify-cli==0.12.11
+      - name: Bootstrap a disposable checkout and enforce Chi ownership
+        run: |
+          specify version
+          test -z "$(git status --porcelain)"
+          bash scripts/bootstrap-spec-kit.sh
+          test -f .specify/integration.json
+          find .github/skills -mindepth 2 -maxdepth 2 -name SKILL.md | grep -q '/speckit-'
+          git diff --exit-code -- .specify/memory/constitution.md AGENTS.md .github/skills/siga/SKILL.md .github/skills/android-ime/SKILL.md
+          python3 scripts/verify_repo.py
+      - name: Preserve generated diff as review evidence (never commit)
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/spec-kit-preview"
+          {
+            echo "Pull request: #1"
+            echo "Source HEAD: $(git rev-parse HEAD)"
+            echo "Spec Kit: $(specify version 2>&1 || echo unavailable)"
+          } > "$RUNNER_TEMP/spec-kit-preview/manifest.txt"
+          git status --porcelain=v1 --untracked-files=all > "$RUNNER_TEMP/spec-kit-preview/status.txt"
+          git diff --binary > "$RUNNER_TEMP/spec-kit-preview/tracked.patch"
+          git ls-files --others --exclude-standard -z | tar --create --gzip --file="$RUNNER_TEMP/spec-kit-preview/new-files.tar.gz" --null --files-from=-
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chi-spec-kit-bootstrap-preview
+          path: ${{ runner.temp }}/spec-kit-preview/
+          retention-days: 14
+          if-no-files-found: warn
