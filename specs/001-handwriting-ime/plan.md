@@ -47,3 +47,8 @@ Start as one Android app module with package boundaries; avoid modules or depend
 ## Gates
 - Human: OFFLINE-001 approved as option B on 2026-10-09; preserve any separate architecture/device/PR review or merge gates when they arise.
 - Automated: no app build exists yet; CI only validates repository governance.
+
+## Visual design reference (PROPOSED)
+- Candidate art concept: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), visual approval pending.
+- S01–S05 map to onboarding, IME canvas, candidates/explicit insert, initial model download and sensitive editors.
+- Do not treat concept art as Android runtime evidence, an approved visual baseline or a change to OFFLINE-001=B. Implement only after appropriate design gate and device/accessibility validation.
