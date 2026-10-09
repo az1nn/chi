@@ -8,7 +8,7 @@
 ## Routing
 - Standalone **Siga** → load `.github/skills/siga/SKILL.md`, then consult its external canonical source. RECONCILE → CLASSIFY → EXECUTE → VERIFY → HANDOFF.
 - **Android IME**, Kotlin/SDK/stylus/recognizer topics → load `.github/skills/android-ime/SKILL.md` within SIGA's scope.
-- **Spec Kit** → use upstream-generated `speckit.*` workflows after running `scripts/bootstrap-spec-kit.sh`; do not make duplicate local Spec Kit command implementations.
+- **Spec Kit** → use the installed, upstream-generated `/speckit-*` Copilot skills under `.github/skills/` (official `specify-cli==0.12.11` bootstrap completed in T004); do not duplicate or fork the generated procedures.
 
 ## Operating constraints
 - Repository `az1nn/chi` is the only authoritative location for Chi's product specs and state.
