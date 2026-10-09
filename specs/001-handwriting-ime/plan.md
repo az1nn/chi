@@ -1,6 +1,6 @@
 # Plan — Feature 001 Handwriting IME
 
-**Status:** PROVISIONAL / no runtime implemented | **2026-10-09**
+**Status:** IMPLEMENTING — T006/T007 Android foundation compiled in CI; runtime/device gates open | **2026-10-09**
 
 ## Proposed architecture (minimal first)
 
@@ -29,7 +29,8 @@ Start as one Android app module with package boundaries; avoid modules or depend
 - Google ML Kit Digital Ink remains a leading **candidate**, not an approved dependency. Official documentation supports `pt-BR` and dynamic model download (about 20 MB per language) with Android library API floor 23. Exact dependency versions, license and runtime evidence are still pending; see `research.md` (T013).
 - Define model readiness as `NOT_INSTALLED → DOWNLOADING → READY` with `FAILED`, retry and cancellation paths. The UI must distinguish downloading a language model from sending handwriting, which is prohibited.
 - Never silently download, auto-switch to cloud inference, or commit stale candidates on model/focus changes.
-- Choose compile/min SDK and exact Gradle/Kotlin dependency versions from current official documentation during implementation; pin them in the actual build, not in this draft.
+- **T006 technical baseline pinned:** JDK 17 / Gradle 8.13 / AGP 8.13.2 / Kotlin 2.3.10 / compileSdk 36 / targetSdk 36 / minSdk 26 / SDK build tools 35.0.0; CI includes Android SDK package installation. This is an implementation baseline, not constitution ratification or an OEM compatibility claim.
+- **T007 initial boundary:** single app module, real `InputMethodService` declaration and subtype metadata; initial text controls and basic sensitive editor classification. The placeholder does not capture or recognize ink. Picker is implemented via API-26-compatible `InputMethodManager.showInputMethodPicker()`. Full onboarding/IME instrumentation belongs to T008.
 
 ## Verification strategy
 1. Static specifications and skill contract checks via `python3 scripts/verify_repo.py`.
@@ -46,7 +47,7 @@ Start as one Android app module with package boundaries; avoid modules or depend
 
 ## Gates
 - Human: OFFLINE-001 approved as option B on 2026-10-09; preserve any separate architecture/device/PR review or merge gates when they arise.
-- Automated: no app build exists yet; CI only validates repository governance.
+- Automated: GitHub Actions run `37995370625` on commit `1999d90f` passed `assembleDebug`, `lintDebug` and `testDebugUnitTest`; subsequent documentation/CI artifact commits require exact-HEAD recheck. This is a build and isolated test gate, not emulator/device/airplane-mode proof.
 
 ## Visual design reference (PROPOSED)
 - Candidate art concept: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), visual approval pending.

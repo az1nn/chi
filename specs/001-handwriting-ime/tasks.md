@@ -1,6 +1,6 @@
 # Tasks — Feature 001
 
-**State:** PLANNED; governance T001–T005 completed (official Spec Kit 0.12.11 imported). Android runtime not implemented.
+**State:** IMPLEMENTING; T001–T007 completed at source/build level. Android IME device activation, ink and recognition are not verified/implemented.
 
 ## Phase 0 — Governance / setup
 - [x] T001 [P] Record Chi constitution and first feature spec, plan, task ledger in Git.
@@ -10,8 +10,8 @@
 - [x] T005 Resolve OFFLINE-001 = B (approved 2026-10-09) and update spec, plan, ADR and tasks; no vendor selection implied.
 
 ## Phase 1 — Minimum native keyboard (US1)
-- [ ] T006 Initialize Android/Kotlin Gradle app, build and lint configuration.
-- [ ] T007 Register InputMethodService and IME metadata.
+- [x] T006 Initialize Android/Kotlin Gradle app, build and lint configuration. JDK 17 / Gradle 8.13 / AGP 8.13.2 / Kotlin 2.3.10 / SDK 36; Android CI `37995370625` PASS (`assembleDebug`, `lintDebug`, `testDebugUnitTest`).
+- [x] T007 Register `InputMethodService`, manifest and IME subtype metadata and minimal explicit text controls. Compile/lint PASS at `1999d90f`; **enable/select/device behavior still T008**, not claimed.
 - [ ] T008 Implement a setup/enable/switch keyboard flow and device instrumentation tests.
 
 ## Phase 2 — Writing and editor safety (US2, US3)
@@ -32,7 +32,7 @@
 - [ ] T019 Converge spec / plan / tasks / ADR / observed behavior; final handoff.
 
 ## Dependencies
-T004 (official Spec Kit integration) and T005 (OFFLINE-001=B) are complete; T006 (native Kotlin/Gradle setup) is the next implementation task after verifying project SDK/toolchain constraints. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T006..T012 precede T014..T018. Preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
+T004 (official Spec Kit integration), T005 (OFFLINE-001=B), T006 (Kotlin Gradle baseline) and T007 (IME registration/source) are complete with their stated evidence; T008 (real enable/switch onboarding and instrumentation) is next. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T006..T012 precede T014..T018. Preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
 
 ## Visual design gate (supplemental to T008/T009/T011/T013–T018)
 - [x] Candidate concept documented: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), status **PROPOSED** (documentation only).

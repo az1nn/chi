@@ -1,22 +1,22 @@
 CAVEMAN HANDOFF v1
 
-APP: Chi — native Kotlin Android handwriting keyboard
-WORKSTREAM: Feature 001 / verified official GitHub Spec Kit installation / next Android native foundation
-STATE: PR #1 DRAFT OPEN; T001–T005 COMPLETE; T006+ pending; Android runtime not implemented
+APP: Chi — Kotlin native Android handwriting IME
+WORKSTREAM: Feature 001 / PR #1 / Android T006–T007 bootstrap, T008 next
+STATE: PR #1 DRAFT OPEN; T001–T007 source/build-level DONE; T008–T019 pending except documentary T013 progress; visual concept PROPOSED
 MODE: RESUME
-CANONICAL SOURCE: az1nn/chi live Git branch + specs/001-handwriting-ime/* + .specify/memory/constitution.md; procedural SIGA az1nn/cpxlabs-admin/.agents/skills/siga/SKILL.md
+CANONICAL SOURCE: az1nn/chi exact Git PR HEAD + specs/001-handwriting-ime/{spec,plan,tasks,research}.md + docs/adr/0001-native-ime-boundaries.md; SIGA procedure az1nn/cpxlabs-admin/.agents/skills/siga/SKILL.md
 
-CURRENT VERSION / HEAD: branch feat/001-chi-skills-speckit, last inspected at 2a9ab121b13a42ff429865ff7726d27c7f651984; RECHECK exact HEAD after this handoff commit
-BASE: master (recheck live)
-BRANCH / ENV: feat/001-chi-skills-speckit; workflow bootstrap ran on hosted Linux checkout, no local Android SDK/emulator verified
-PR / MR / TASK: #1 Draft; T001–T005 DONE, T006 native Kotlin/Gradle setup NEXT; T013 documentary research advanced but runtime/privacy/vendor selection pending
-SPEC / ADR: specs/001-handwriting-ime/{spec,plan,tasks,research}.md; docs/adr/0001-native-ime-boundaries.md; official Spec Kit integration .specify/integration.json
+CURRENT VERSION / HEAD: 1999d90f6d073b8220fe073fe37419c84c07d60b passed Android/Governance CI before this handoff; RECHECK new HEAD and exact-HEAD runs after this documentation/artifact commit
+BASE: master (live verified; recheck)
+BRANCH / ENV: feat/001-chi-skills-speckit; GitHub-hosted Ubuntu 24.04 with SDK/Gradle; no emulator or stylus device proof
+PR / MR / TASK: #1 Draft, T006/T007 DONE at source+CI level; T008 next; T013 recognizer selection gate open; design VG-01/VG-02 pending
+SPEC / ADR: SPEC-001, OFFLINE-001=B, constitution 0.1.0 DRAFT, ADR-0001 PROPOSED, design CHI-ART-CONCEPT-001 PROPOSED
 
-DONE: OFFLINE-001=B preserved. Verified native Spec Kit 0.12.11 CLI on Actions (run 37991373511 SUCCESS), corrected unsupported --non-interactive flag in bootstrap script, and completed guarded official Copilot skills-mode generation/import in run 37991571999 (governance, bootstrap preview, import all SUCCESS). Generated commit 6319c7a77b7f9375a48e791afe4c85446a2bfbdf includes 26 official integration/skill/script/template files, no manual fork. Reconciled T004 DONE, AGENTS.md, skills README, main README. Retired temporary write-enabled Actions worker in 6b86a92e3968ab424f445eb1422d4670653bfaad and added static verification for official integration.
-VERIFY: Github Actions 37991571999 all 3 jobs SUCCESS on source HEAD 74b7cf275c3a032b835e3914284103e9444d005d; generated output separately inspected at import HEAD 6319c7a. Governance run 37991765980 SUCCESS at follow-on HEAD 843af750012952f2b9e89576957be65a6ce3751b. Newest documentation commits and handoff require exact-HEAD CI verification. .specify/integration.json reports version 0.12.11, Copilot, skills=true. This proves repository/bootstrap governance ONLY; no Android lint/build, APK, device test or recognition performance evidence.
-GATES: OFFLINE-001=B SATISFIED; T004 SATISFIED; constitution 0.1.0 still draft/unratified; T013 vendor/license/SDK metrics/privacy and airplane-mode runtime tests pending; Android setup/IME/input/privacy tests pending; PR #1 remains Draft, manual merge approval not waived.
-BLOCKERS: No source Kotlin/Gradle project or real IME yet. Current agent container lacks external Git DNS and local specify/Android device access; official CLI generation was instead executed successfully on GitHub-hosted runner. ML Kit Digital Ink remains a CANDIDATE only; cannot assert zero SDK network or accept vendor absent terms/device analysis.
+DONE: Reconciled PR #1 and last real code HEAD before changes. Preserved official Spec Kit 0.12.11, SIGA adapter, OFFLINE-001=B. Added single-module Android Kotlin project: AGP 8.13.2, Gradle 8.13, Kotlin 2.3.10, JDK 17, compile/target SDK 36, min SDK 26. Registered InputMethodService/IME metadata, API-26-compatible system keyboard picker, space and backspace; basic sensitive-editor classification and unit tests. No INTERNET permission, no model SDK, no ink acquisition. Concurrent ARTIST commits added PROPOSED design reference in plan/tasks; preserved those changes.
+VERIFY: Governance CI PASS on code HEAD 1999d90f (runs 37995370686 and 37995377179). Android run 37995370625 SUCCESS (assembleDebug, lintDebug, testDebugUnitTest) on exact code HEAD. Earlier CI failures exposed deprecated Kotlin jvmTarget DSL and minSdk-26 NewApi call; both corrected, no checks suppressed. Subsequent HEAD requires new CI validation; device behavior, screenshots, apk install/IME enabling, privacy packet capture, latency, offline recognition NOT VERIFIED.
+GATES: OFFLINE-001=B satisfied, not vendor approval. Constitution 0.1.0 still draft/unratified. T013 licensing/metrics/privacy/model acceptance pending. Visual human gate VG-01/VG-02 pending. T008/T017 Android device tests pending. Merge requires dedicated Chi human authorization and green exact-HEAD CI; no inherited auto-merge permission.
+BLOCKERS: No Android emulator/hardware runtime evidence; no committed Gradle wrapper (CI pins Gradle 8.13); no recognizer vendor accepted; visual concept proposed only.
 
-INVARIANTS: REAL STATE > HANDOFF > MEMORY > CHAT; Chi owns specs; SIGA canonical in cpxlabs-admin only; no inherited auto-merge authority; no cloud inference or content telemetry; do not mark Kotlin, offline, accessibility, latency or device gates passed without evidence.
-NEXT: Recheck current PR HEAD and governance. Before T006, validate conservative supported Android/Gradle/JDK/Kotlin SDK baseline and architecture review against spec/constitution, then create a single-module InputMethodService foundation only with real build/test CI. T013 may proceed in parallel as documentary vendor evaluation, but T014 adapter awaits verified download/privacy/terms and device evidence; preserve PR Draft and separate merge gate.
-VERIFY-FIRST: Read live PR #1 HEAD/branch, CI/jobs and reviews; scripts/verify_repo.py; official integration metadata; constitution/spec/plan/tasks/research/ADR; inspect new file ownership and any concurrent worker before acting.
+INVARIANTS: REAL STATE > HANDOFF > MEMORY > CHAT; SIGA canon stays in cpxlabs-admin; no cloud inference or handwriting upload, no hidden SDK metrics, no stale result commits; no fake test/build claims or gate bypass.
+NEXT: Recheck exact HEAD/CI and incoming concurrent changes. T008 implement explicit IME onboarding/enable/switch flow and emulator instrumentation with focus/sensitive input checks. Validate Gradle wrapper option as separate repeatable enhancement. Preserve T013 blocked on privacy/vendor/device evidence and VG human review. Never merge PR #1 automatically.
+VERIFY-FIRST: Inspect live PR #1 refs/reviews/runs; Android and governance workflow results on exact HEAD; current README/plan/tasks/ADR/design/handoff; detect competing writes; test physical/emulator IME registration and switching before reporting T008 done.
