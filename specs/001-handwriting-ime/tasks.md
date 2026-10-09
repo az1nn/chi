@@ -33,3 +33,9 @@
 
 ## Dependencies
 T004 (official Spec Kit integration) and T005 (OFFLINE-001=B) are complete; T006 (native Kotlin/Gradle setup) is the next implementation task after verifying project SDK/toolchain constraints. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T006..T012 precede T014..T018. Preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
+
+## Visual design gate (supplemental to T008/T009/T011/T013–T018)
+- [x] Candidate concept documented: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), status **PROPOSED** (documentation only).
+- [ ] Visual human approval of composition, core flows and components (VG-01 / VG-02); **no approval inferred** from concept generation.
+- [ ] Once implemented, validate real UI in portrait/landscape/dark/font-scale, accessibility, IME focus safety and actual device screenshots (VG-03..VG-05).
+- Design review does not mark any Kotlin build, recognition or hardware verification task complete.
