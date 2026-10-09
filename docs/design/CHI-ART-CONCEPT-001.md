@@ -1,129 +1,85 @@
-# CHI-ART-CONCEPT-001 — Chi | Escrita natural
+# CHI-ART-CONCEPT-001 — Dual Input (V2)
+**Versão:** 0.2.0 · **Data:** 2026-10-09 · **Status:** PROPOSED — HUMAN VISUAL APPROVAL PENDING
+**Histórico:** V1 (prancha urbana/dark complexa) = **REJECTED** em 2026-10-09. NÃO utilizar V1 como referência aprovada, nem herdar dicionário pessoal, temas, chat de exemplo, logo ilustrado, teclado QWERTY ou adornos.
 
-**Versão:** 0.1 · **Data:** 2026-10-09 · **Status:** PROPOSED / VISUAL APPROVAL PENDING
-**Produto:** teclado Android nativo (Kotlin / InputMethodService), Feature 001.
+## 1. Intenção do produto
+Chi é **um teclado Android nativo para converter fala e escrita manual em texto editável no aplicativo atual**, com o mínimo de interface possível. Dois modos de entrada com a mesma saída: **Escrita** e **Voz**. O conteúdo é revisado e então enviado ao campo ativo apenas mediante ação explícita **Inserir**.
 
-> North star: “Sua letra. Seu texto.” O Chi deve parecer uma ferramenta silenciosa de escrita: superfície limpa, tinta nítida, transcrição evidente e controle de inserção pelo usuário.
+North star: **“Escreva ou fale. Vira texto.”**
 
-## 1. Princípios e estética
-- **Ink-first:** caligrafia é protagonista; cromatismo e molduras não competem com os traços.
-- **Nativo e acessível:** estética Material moderna e com personalidade própria; não simular configurações do Android como se fossem do Chi.
-- **Controle explícito:** reconhecer e inserir são ações distintas; não fazer auto-commit de resultados provisórios.
-- **Privacidade legível:** download inicial de modelo é distinto de transmissão de escrita. Conteúdo não sobe para servidores.
-- **Tom:** calmo, preciso e acolhedor. Não usar neon, vidro pesado, gradients marcantes nem metáforas de caderno.
+### Fora da direção visual V1
+Não apresentar chats de terceiros como parte do Chi, dicionário, perfis, login, feed, atalhos, temas customizados, transcrição de arquivos, assistente conversacional, IA generativa, corretor gramatical, efeitos 3D, paisagens, decoração urbana ou calendário. Configurações somente quando estritamente necessárias para ativar a IME, conceder microfone e preparar modelos.
 
-**Brand v0.1 (proposto):** wordmark “chi” em minúsculas, com leve detalhe de traço manuscrito contínuo. Não é um logo aprovado.
+## 2. Conceito visual
+- **Minimalismo funcional, light-first:** fundo off-white, tinta grafite, uma única cor de ação azul-índigo. Muito espaço de escrita e poucos controles.
+- **No máximo dois elementos de navegação primária:** alternador segmentado **Escrita | Voz**.
+- **Hierarquia:** (1) área de entrada, (2) texto transcrito para revisar, (3) ação Inserir.
+- **Sem navbar de aplicativo dentro da IME:** a interface própria do Chi é só a área inferior do Android. Área de texto do aplicativo hospedeiro acima serve apenas para contextualização.
+- **Marca:** apenas palavra **chi**, discreta em tipografia sem serifa; sem logo chamativo. Nenhum wordmark do conceito rejeitado é aceito por herança.
+- **Fonte:** Roboto/system sans. Títulos e controles curtos, sem tipografia decorativa.
+- **Cores propostas:** background #F7F8FA; canvas/surface #FFFFFF; texto #17212D; secundário #687582; borda #E2E6EC; action #365BE8; action pale #EDF1FF; ativo/recording #D94949; success #237B62.
+- **Dark:** adaptação futura para contraste/acessibilidade; não representar modo escuro como tema oficial aprovado.
+- **Tokens:** 8dp spacing base, 14–16dp gutters, 14–18dp radius suave, controles >=48dp, strokes de tinta com alta legibilidade.
 
-## 2. Design tokens
+## 3. Storyboard de mockups (V2)
+### S01 — Escrita (modo padrão)
+Área inferior de IME com cabeçalho compacto [chi] [Escrita | Voz]. Canvas branco de maior área com um traço manuscrito de exemplo **“bom dia”**. Linha de preview **Texto: bom dia**, separada da escrita; pode exibir carregamento antes de reconhecer. Ações de rodapé: **Limpar**, **Apagar** (quando aplicável) e botão principal **Inserir**. Ícone/título de microfone não precisa aparecer além da aba Voz.
 
-| Token | Light principal | Dark (adaptação requerida) |
-| --- | --- | --- |
-| Background | #F6F8FB | #0F1521 |
-| Surface | #FFFFFF | #1A2330 |
-| Primary text | #192334 | #F4F7FC |
-| Secondary text | #526071 | #B9C7D8 |
-| Border | #DCE3EB | #344356 |
-| Ink | #17253C | #EEF3FF |
-| Accent/CTA | #4B5DDD | #92A1FF |
-| Accent subtle | #E9EDFF | #273464 |
-| Success | #127A64 | #71D9B5 |
-| Error | #B42332 | #FF8698 |
+### S02 — Voz (captura)
+Mesmo cabeçalho, aba **Voz** selecionada. Em vez de canvas, um ícone simples de microfone e o estado inequívoco **Ouvindo…**. Indicação de nível simples, discreta e abstrata (não fingir onda real). Botão **Parar** claro; sem captar áudio ao apenas trocar de aba. Microfone somente após gesto explícito **Iniciar gravação** e consentimento Android. O áudio jamais deve ser gravado como histórico local por padrão.
 
-**Typography:** Roboto / Android system stack, no remote font. Heading 22sp semibold; secondary heading 16sp medium; action labels 14–16sp; meta 12–13sp only when legible.
-**Shape:** 20dp radius on writing canvas and cards, 14–16dp on chips/actions, 8dp spacing grid, 16dp outer padding; targets min 48x48dp.
-**Visual effects:** quiet hairline borders, mild elevation; no unnecessary illustration in IME.
+### S03 — Voz (revisão)
+Ao parar, exibir **Transcrição:** seguido de texto reconhecido demonstrativo **“Podemos conversar amanhã?”**, como prévia editável/revisável se a implementação permitir; botão **Inserir** somente quando texto pronto e editor ativo. Botão de regravar/limpar separado. Não afirmar streaming, latência, precisão, pontuação ou offline sem testes.
 
-## 3. Mockup storyboard / telas
+### S04 — Setup necessário (mínimo)
+Quando permissão de microfone falta: texto **Permitir microfone** e botão que desencadeia a permissão do Android; sem atalho silencioso. Quando um modelo local falta: **Preparar modo offline** + botão **Baixar modelo** explícito, por idioma/modalidade; não chamar modo offline de pronto antes de READY.
 
-### S01 — Onboarding e ativação (Chi Activity)
-- Headline: **Escreva à mão. Use em qualquer app.**
-- Minimal line art transforms a handwritten stroke into typeset text.
-- Two system-mediated steps: **1. Ativar teclado** / **2. Selecionar Chi**.
-- Permission disclosure: “Ao ativar um teclado, o Android permite acesso ao texto digitado. Chi não envia sua escrita para servidores.”
-- Primary CTA: **Configurar teclado**. Never imply system IME authorization happens inside Chi itself.
+### S05 — Campo sensível / perda de foco
+Canvas e transcrição vazios/ocultos; texto **Entrada desativada neste campo**; nunca reaproveitar resultado de outra sessão ou editor. Trocar teclado quando necessário.
 
-### S02 — Captura de escrita (Chi IME, hosted by another app)
-- Top of phone belongs to an *illustrative third-party editor*. Only bottom keyboard panel belongs to Chi.
-- IME header: discreet “chi”, language status, offline badge only when model is READY.
-- Large calm writing canvas with strong dark ink; placeholder “Escreva aqui” only when blank.
-- Recognition row: candidates when available; “Reconhecendo…” during work, without fictional success.
-- Essential persistent actions: **Limpar / Espaço / Apagar / Teclado**.
-
-### S03 — Revisar e inserir (Chi IME)
-- Primary recognized candidate plus up to two alternates in large tactile chips.
-- Chip selects candidate; separate primary button **Inserir** commits to editor via active InputConnection.
-- If focus or session changes, discard stale candidate; don't insert previously recognized words.
-- A valid commit may reset the canvas without celebration or distracting snackbar.
-
-### S04 — Preparar escrita offline (Chi Activity or compact IME state)
-- Heading: **Prepare a escrita offline**.
-- Copy: “Baixe o modelo de Português (Brasil) uma vez. Depois, o reconhecimento funciona neste aparelho, mesmo sem internet.”
-- **Baixar modelo** button appears before network action; no silent downloads.
-- NOT_INSTALLED → DOWNLOADING → READY; error offers **Tentar novamente**, secure cancel.
-- Progress bar determined only if SDK exposes real measured progress; otherwise use an indeterminate indicator.
-- No confusing “backup” or “sync” iconography.
-
-### S05 — Campo sensível (fallback UI)
-- Replace ink/candidates with **Escrita desativada neste campo** and a recovery control **Trocar teclado**.
-- Do not show a prior session's strokes, transcription or suggestions.
-
-## 4. Keyboard layout (portrait baseline; diagram only)
+## 4. Layout IME esquemático
 
     +------------------------------------+
-    | chi                    pt-BR offline|
-    +------------------------------------+
-    | candidato 1    candidato 2    ...   |
+    | chi            [Escrita] [Voz]     |
     +------------------------------------+
     |                                    |
-    |       ÁREA DE ESCRITA / INK        |
+    |     área de tinta OU microfone     |
     |                                    |
     +------------------------------------+
-    | Limpar  Espaço  Apagar  Teclado     |
-    |                        [Inserir]   |
+    | prévia do texto reconhecido        |
+    +------------------------------------+
+    | Limpar                    [Inserir] |
     +------------------------------------+
 
-**Sizing target:** approximately 300–350dp tall on a reference portrait device, dynamically constrained by window insets, system bar, viewport and font scaling. This is NOT a hard-coded keyboard height. In landscape/small screens prioritise useful canvas area and essential controls.
+- Modo entrada usa **um único container**: Canvas para caneta OU componente de áudio; nunca telas e menus completos.
+- Para voz, o botão principal é **Iniciar**, depois **Parar**, depois **Inserir**, nunca iniciar automaticamente.
+- Para escrita, o traço pode ser reconhecido de forma assíncrona, mas o commit permanece explícito e focus-safe.
+- A altura não é fixa; preservar espaço para o app hospedeiro com IME/window insets, telas pequenas, landscape e fonte aumentada.
 
-## 5. Asset and component inventory
-
-| ID | Name | Delivery target | Status |
+## 5. Componentes necessários
+| ID | Componente | Entrega alvo | Estado |
 | --- | --- | --- | --- |
-| CHI-A01 | Monoline “chi” wordmark | Vector, dark/light variants | PROPOSED |
-| CHI-A02 | Android adaptive app/IME icon | Foreground/background assets | PROPOSED |
-| CHI-A03 | Canvas, hint and border | Native custom View | PROPOSED |
-| CHI-A04 | Realtime ink stroke renderer | Native Path/Canvas | PROPOSED |
-| CHI-A05 | Candidate chip, selected/normal | Native component | PROPOSED |
-| CHI-A06 | Insert/clear/space/delete/switch controls | Native components | PROPOSED |
-| CHI-A07 | Model/offline/language/security indicators | Text + vectors | PROPOSED |
-| CHI-A08 | Minimal action icons 24dp | Material-like vectors | PROPOSED |
-| CHI-A09 | Onboarding ink-to-text illustration | Optional vector | PROPOSED |
-| CHI-A10 | Download/failed/ready/locked states | Native components | PROPOSED |
+| CHI-UI-01 | Header chi + segmented control (Escrita/Voz) | Android nativo | PROPOSED |
+| CHI-UI-02 | Ink canvas + stroke path | Android custom View | PROPOSED |
+| CHI-UI-03 | Microfone / estados Iniciar, Ouvindo, Parar | Android native views | PROPOSED |
+| CHI-UI-04 | Prévia de texto/candidato de transcrição | Android native views | PROPOSED |
+| CHI-UI-05 | CTA explícito Inserir + Limpar/Refazer | Android native views | PROPOSED |
+| CHI-UI-06 | Prompt de permissão de microfone, estado de modelo | Android Activity/IME + system dialog | PROPOSED |
+| CHI-UI-07 | Segurança/focus/sensitive disabled | Android native states | PROPOSED |
 
-No raster sprite sheets for control elements. Live stroke rendering must use ink paths, not a mockup background. The generated concept image is illustrative and must not be confused with a production screenshot.
+Sem imagens rasterizadas para componentes funcionais; o mockup é **conceitual**, não screenshot de build.
 
-## 6. Accessibility and microinteractions
-- Pen-first. Finger drawing is not silently considered approved for V1.
-- WCAG AA text contrast target >=4.5:1; measure actual UI colors, including on disabled states. Never convey state only with color.
-- Hit areas >=48dp; clear TalkBack actions “Limpar escrita”, “Inserir candidato”, “Apagar caractere”, “Trocar teclado”.
-- Android large-font scaling, small displays, screen rotation, navigation insets and reduced-motion settings are review cases.
-- Avoid keyboard-only gestures that cannot be discovered or used with accessibility services.
-- Announce candidate-ready/status changes without noisy repeated announcements; optional discreet haptics.
-- Sensitive editor types: stop ink capture, hide prior state and avoid content persistence/logging/telemetry.
-- Never send ink, recognized text or raw editor data to a backend; recognizer choice remains unapproved.
+## 6. Privacidade, arquitetura e pendências
+- **Feature 001 / handwriting:** preservar OFFLINE-001=B (download inicial explícito de modelo de tinta; inferência local depois; nenhum fallback cloud). Reconhecedor ainda não selecionado.
+- **Feature 002 / voz:** proposta de transcrição **on-device**, sem rede para áudio/conteúdo, no mesmo editor via InputConnection, porém engine, suporte pt-BR, modelo, requisitos de rede para setup, permissões, gravação temporária e suporte Android **dependem de validação de engenharia**. Não presumir que a mesma engine resolve voz e escrita.
+- Captura de microfone exige ação explícita e permissão; foco/sensitive/input type deve impedir captura ou commit indevido.
+- Nenhum texto, áudio ou stroke deve ir para analytics, logs ou backend.
+- A fonte da proposta de voz está em `specs/002-voice-transcription/`. A V1 do handwriting não é automaticamente considerada entregue.
 
-## 7. State / acceptance matrix
-
-| Gate | Evidence | Status |
-| --- | --- | --- |
-| VG-01 | Composition, palette, typography, wordmark accepted | PENDING HUMAN |
-| VG-02 | S01–S05 flows and separate “Inserir” action accepted | PENDING HUMAN |
-| VG-03 | Portrait, landscape, dark mode and font scaling previews | NOT TESTED |
-| VG-04 | Measured contrast, TalkBack and touch target tests | NOT TESTED |
-| VG-05 | APK screenshot and ink-to-editor test on device | NOT IMPLEMENTATION PROOF |
-
-## 8. Spec Kit continuity
-- Source of truth: specs/001-handwriting-ime/spec.md (US1–US5; FR-001..010).
-- Implementation plan: specs/001-handwriting-ime/plan.md and tasks.md. This design informs T008 (activation), T009 (canvas), T011 (candidate/actions), T013–T014 (model states), T017–T018 (UI/device/a11y verification).
-- **OFFLINE-001=B preserved:** explicit user-initiated model download, then inference on device only; no cloud fallback.
-- **No changes authorized** to recognizer vendor, SDK/licensing, hardware support claims, pending tests or merge gates.
-- After design approval: implement native design tokens/components behind Feature 001 tasks, capture real runtime visual evidence and assess divergences. Keep PR #1 draft until distinct engineering/review gates pass.
+## 7. Gates de aceite
+- **VG-01 PENDING HUMAN:** mockup V2 minimalista, light-first, **Escrita | Voz** e prévia + Inserir.
+- **VG-02 PENDING HUMAN:** sem menu, dicionário, tema, chat ou personalizações; estados S01–S05 coerentes.
+- **VG-03 NOT VERIFIED:** tela pequena/landscape/dark/large fonts/accessibility.
+- **VG-04 NOT VERIFIED:** permissão mic, privacidade, readiness de modelo e offline de voz (testar separadamente).
+- **VG-05 NOT VERIFIED:** APK/testes de dispositivo/latência/reconhecimento real.
+- Merge do PR #1 não autorizado por este documento. Manter status de proposta até aprovação humana da nova imagem.
