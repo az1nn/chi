@@ -5,6 +5,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED = [
+    "specs/001-handwriting-ime/research.md",
     "AGENTS.md",
     ".github/skills/siga/SKILL.md",
     ".github/skills/android-ime/SKILL.md",

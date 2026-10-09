@@ -26,7 +26,7 @@ Start as one Android app module with package boundaries; avoid modules or depend
 ## Android and recognition decision
 - IME-hosted handwriting canvas is baseline for widest compatibility; OS stylus handwriting callbacks are an optional separate adapter on API 33+.
 - **OFFLINE-001 = B (approved 2026-10-09):** first-run model download may use network after explicit user action; subsequent recognition must be on-device and usable in airplane mode. Cold-install offline recognition is out of scope.
-- Google ML Kit Digital Ink remains a leading **candidate**, not an approved dependency. T013 must verify current pt-BR model support, supported script/language identifiers, licensing, model size/download API and minimum SDK before adapter selection.
+- Google ML Kit Digital Ink remains a leading **candidate**, not an approved dependency. Official documentation supports `pt-BR` and dynamic model download (about 20 MB per language) with Android library API floor 23. Exact dependency versions, license and runtime evidence are still pending; see `research.md` (T013).
 - Define model readiness as `NOT_INSTALLED → DOWNLOADING → READY` with `FAILED`, retry and cancellation paths. The UI must distinguish downloading a language model from sending handwriting, which is prohibited.
 - Never silently download, auto-switch to cloud inference, or commit stale candidates on model/focus changes.
 - Choose compile/min SDK and exact Gradle/Kotlin dependency versions from current official documentation during implementation; pin them in the actual build, not in this draft.

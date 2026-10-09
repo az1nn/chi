@@ -21,7 +21,7 @@
 - [ ] T012 Implement RecognitionCoordinator cancellation and no-stale-commit tests.
 
 ## Phase 3 — Recognition (US2, US4)
-- [ ] T013 Evaluate and select an on-device recognizer compatible with OFFLINE-001=B; verify pt-BR support, initial model download API/UX, dependencies, licensing, privacy and offline evidence. Decision gate cleared, technical selection pending.
+- [ ] T013 Evaluate and select an on-device recognizer compatible with OFFLINE-001=B; verify pt-BR support, initial model download API/UX, dependencies, licensing, privacy and offline evidence. Documentary feasibility in `research.md`; vendor selection and runtime evidence still pending.
 - [ ] T014 Implement InkRecognizer adapter/model readiness and error handling.
 - [ ] T015 Prove airplane-mode recognition with a ready local model; on cold install without a model, assert an explicit setup state and no upload/cloud inference; test download failure, retry and recovery.
 - [ ] T016 Measure pen-up to candidate latency on declared devices/corpus.

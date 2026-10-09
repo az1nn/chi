@@ -16,5 +16,5 @@ VERIFY: python3 scripts/verify_repo.py; inspect exact-head PR CI after opening
 GATES: OFFLINE-001 satisfied (B on 2026-10-09); official Spec Kit CLI bootstrap T004 pending; recognizer SDK validation T013 pending; PR review/merge remains gated; Android build N/A
 BLOCKERS: Official Spec Kit integration T004 not executed in user's local checkout; recognizer implementation waits on verified adapter T013; no Android runtime/toolchain in repo
 INVARIANTS: REAL STATE > HANDOFF > MEMORY > CHAT; no false build PASS; no inherited auto-merge
-NEXT: Recheck PR #1 exact HEAD and CI; execute official GitHub Spec Kit bootstrap T004 in a clean checkout, validate generator output; research adapter T013 with pt-BR/first-download evidence; only then begin Kotlin T006 with tests
+NEXT: Recheck PR #1 exact HEAD and CI; execute official GitHub Spec Kit bootstrap T004 in a clean checkout, validate generator output; continue adapter T013 with runtime/license/first-download proof; documentary pt-BR evidence exists in specs/001-handwriting-ime/research.md; only then begin Kotlin T006 with tests
 VERIFY-FIRST: Read current repo tree, exact HEAD, open PR, checks, specs/tasks/constitution; reconcile before choosing RESUME/WATCH/ADVANCE.
