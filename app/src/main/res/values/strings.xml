@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chi</string>
+    <string name="ime_name">Chi — escrita à mão</string>
+    <string name="ime_subtype">Português (Brasil)</string>
+    <string name="ime_title">Chi · teclado em construção</string>
+    <string name="ime_placeholder">Captura de escrita indisponível nesta fundação. Nenhum traço é coletado.</string>
+    <string name="ime_sensitive">Campo sensível: captura e reconhecimento desativados.</string>
+    <string name="key_space">Espaço</string>
+    <string name="key_delete">Apagar</string>
+    <string name="key_switch">Trocar</string>
+    <string name="key_switch_accessibility">Trocar para outro teclado</string>
+</resources>
