@@ -22,7 +22,8 @@ saved_constitution="$(mktemp)"
 trap 'rm -f "$saved_constitution"' EXIT
 cp .specify/memory/constitution.md "$saved_constitution"
 
-specify init --here --force --non-interactive --script sh --integration copilot --integration-options="--skills" --ignore-agent-tools
+# All prompts are resolved by --here/--force/--script/--integration; the pinned 0.12.11 CLI does not accept --non-interactive.
+specify init --here --force --script sh --integration copilot --integration-options="--skills" --ignore-agent-tools
 
 # Existing Chi governance is authoritative; initialization must not reset it.
 if ! cmp -s "$saved_constitution" .specify/memory/constitution.md; then
