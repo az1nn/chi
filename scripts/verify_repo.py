@@ -93,7 +93,7 @@ if integration_path.is_file():
         errors.append(f"invalid Spec Kit integration metadata: {exc}")
 
 tasks_status = ROOT / "specs/001-handwriting-ime/tasks.md"
-if tasks_status.is_file() and not re.search(r"(?m)^- \\[x\\] T004\\b", tasks_status.read_text(encoding="utf-8")):
+if tasks_status.is_file() and not re.search(r"(?m)^- \[x\] T004\b", tasks_status.read_text(encoding="utf-8")):
     errors.append("T004 must be complete after official generated Spec Kit import")
 
 if errors:
