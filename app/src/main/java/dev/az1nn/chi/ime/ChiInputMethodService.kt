@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.inputmethodservice.InputMethodService
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -53,7 +54,7 @@ class ChiInputMethodService : InputMethodService() {
             currentInputConnection?.deleteSurroundingText(1, 0)
         }
         addKey(R.string.key_switch, R.string.key_switch_accessibility) {
-            switchToNextInputMethod(false)
+            (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).showInputMethodPicker()
         }
         root.addView(buttons)
         updateStatus(currentInputEditorInfo)
@@ -63,11 +64,6 @@ class ChiInputMethodService : InputMethodService() {
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
         updateStatus(info)
-    }
-
-    override fun onFinishInputView(finishingInput: Boolean) {
-        statusLabel = null
-        super.onFinishInputView(finishingInput)
     }
 
     private fun updateStatus(info: EditorInfo?) {
