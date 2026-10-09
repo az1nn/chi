@@ -24,16 +24,17 @@
 
 O fluxo é **constitution → specify → clarify (quando necessário) → plan → tasks → analyze → implement → converge**. Não executar `implement` enquanto houver decisões bloqueantes.
 
-O catálogo oficial de templates, comandos, scripts e integração Copilot deve ser instalado **no checkout local**, não reproduzido manualmente neste repositório:
+O GitHub Spec Kit oficial **0.12.11 já foi instalado** no PR #1, via checkout isolado do GitHub Actions e commit `6319c7a`. A integração Copilot usa skills em `.github/skills/speckit-*`; os templates, scripts e manifests oficiais ficam em `.specify/`. A fundação é documental — não existe APK ou app Android ainda.
+
+Para usar o CLI no checkout local (a inicialização não deve ser repetida sem necessidade):
 
 ```bash
-uv tool install specify-cli
+uv tool install specify-cli==0.12.11
 git switch feat/001-chi-skills-speckit
-bash scripts/bootstrap-spec-kit.sh
 specify version
 python3 scripts/verify_repo.py
 ```
 
-O script preserva a constituição do Chi, exige checkout limpo e utiliza `specify init --here --force --integration copilot --ignore-agent-tools`. Revisar e versionar os arquivos gerados em um commit separado.
+A integração já está versionada. O script `scripts/bootstrap-spec-kit.sh` é uma recuperação idempotente: detecta `.specify/integration.json` e evita inicialização repetida. A constituição do Chi, o SIGA local e o especialista Android IME não foram sobrescritos. Use `/speckit-specify`, `/speckit-plan`, `/speckit-tasks` e `/speckit-analyze` no agente compatível, mantendo os gates de implementação.
 
 Referências: https://github.com/github/spec-kit e https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills
