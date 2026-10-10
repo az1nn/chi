@@ -1,22 +1,21 @@
 CAVEMAN HANDOFF v1
 
-APP: Chi — Kotlin native Android handwriting IME
-WORKSTREAM: Feature 001 / PR #1 / Android T006–T007 bootstrap, T008 next
-STATE: PR #1 DRAFT OPEN; T001–T007 source/build-level DONE; T008–T019 pending except documentary T013 progress; visual concept PROPOSED
-MODE: RESUME
-CANONICAL SOURCE: az1nn/chi exact Git PR HEAD + specs/001-handwriting-ime/{spec,plan,tasks,research}.md + docs/adr/0001-native-ime-boundaries.md; SIGA procedure az1nn/cpxlabs-admin/.agents/skills/siga/SKILL.md
+APP: Chi — native Android Kotlin IME (handwriting + planned offline voice)
+WORKSTREAM: Feature 001 PR #1 / T008 onboarding and emulator smoke; Feature 002 V2.1 visual
+STATE: PR #1 OPEN DRAFT, no merge; T008 onboarding source added but emulator completion not yet proven; handwriting and audio recognition absent
+MODE: RESUME for failed emulator smoke (prior failure diagnosed and workflow fix dispatched; recheck new exact-HEAD CI)
+CANONICAL SOURCE: az1nn/chi PR #1 live HEAD, specs/001-handwriting-ime/*, specs/002-voice-transcription/*, docs/design/CHI-ART-CONCEPT-001.md; SIGA canonical az1nn/cpxlabs-admin/.agents/skills/siga/SKILL.md
 
-CURRENT VERSION / HEAD: 1999d90f6d073b8220fe073fe37419c84c07d60b passed Android/Governance CI before this handoff; RECHECK new HEAD and exact-HEAD runs after this documentation/artifact commit
-BASE: master (live verified; recheck)
-BRANCH / ENV: feat/001-chi-skills-speckit; GitHub-hosted Ubuntu 24.04 with SDK/Gradle; no emulator or stylus device proof
-PR / MR / TASK: #1 Draft, T006/T007 DONE at source+CI level; T008 next; T013 recognizer selection gate open; design VG-01/VG-02 pending
-SPEC / ADR: SPEC-001, OFFLINE-001=B, constitution 0.1.0 DRAFT, ADR-0001 PROPOSED, design CHI-ART-CONCEPT-001 PROPOSED
+CURRENT VERSION / HEAD: previous code/docs SHA ea523db166013426a9586c6c8e096f74a39e2894; this handoff and CI correction commit follows; use PR #1 live HEAD
+BASE: master (base SHA 1f0ce7beb9fa1bd7ac50d106be290cccf2dcff4f at reconciling)
+BRANCH / ENV: feat/001-chi-skills-speckit, GitHub Actions JDK 17 / Gradle 8.13 / Android SDK 36 / emulator API 35
+PR / MR / TASK: PR #1 Draft; T001–T007 source PASS; T008 PARTIAL/OPEN
+SPEC / ADR: SPEC-001 with OFFLINE-001 = B, SPEC-002 voice engine/open offline gate, ADR-0001 PROPOSED, constitution v0.1.0 DRAFT
 
-DONE: Reconciled PR #1 and last real code HEAD before changes. Preserved official Spec Kit 0.12.11, SIGA adapter, OFFLINE-001=B. Added single-module Android Kotlin project: AGP 8.13.2, Gradle 8.13, Kotlin 2.3.10, JDK 17, compile/target SDK 36, min SDK 26. Registered InputMethodService/IME metadata, API-26-compatible system keyboard picker, space and backspace; basic sensitive-editor classification and unit tests. No INTERNET permission, no model SDK, no ink acquisition. Concurrent ARTIST commits added PROPOSED design reference in plan/tasks; preserved those changes.
-VERIFY: Governance CI PASS on code HEAD 1999d90f (runs 37995370686 and 37995377179). Android run 37995370625 SUCCESS (assembleDebug, lintDebug, testDebugUnitTest) on exact code HEAD. Earlier CI failures exposed deprecated Kotlin jvmTarget DSL and minSdk-26 NewApi call; both corrected, no checks suppressed. Subsequent HEAD requires new CI validation; device behavior, screenshots, apk install/IME enabling, privacy packet capture, latency, offline recognition NOT VERIFIED.
-GATES: OFFLINE-001=B satisfied, not vendor approval. Constitution 0.1.0 still draft/unratified. T013 licensing/metrics/privacy/model acceptance pending. Visual human gate VG-01/VG-02 pending. T008/T017 Android device tests pending. Merge requires dedicated Chi human authorization and green exact-HEAD CI; no inherited auto-merge permission.
-BLOCKERS: No Android emulator/hardware runtime evidence; no committed Gradle wrapper (CI pins Gradle 8.13); no recognizer vendor accepted; visual concept proposed only.
-
-INVARIANTS: REAL STATE > HANDOFF > MEMORY > CHAT; SIGA canon stays in cpxlabs-admin; no cloud inference or handwriting upload, no hidden SDK metrics, no stale result commits; no fake test/build claims or gate bypass.
-NEXT: Recheck exact HEAD/CI and incoming concurrent changes. T008 implement explicit IME onboarding/enable/switch flow and emulator instrumentation with focus/sensitive input checks. Validate Gradle wrapper option as separate repeatable enhancement. Preserve T013 blocked on privacy/vendor/device evidence and VG human review. Never merge PR #1 automatically.
-VERIFY-FIRST: Inspect live PR #1 refs/reviews/runs; Android and governance workflow results on exact HEAD; current README/plan/tasks/ADR/design/handoff; detect competing writes; test physical/emulator IME registration and switching before reporting T008 done.
+DONE: setup Activity for explicit Android IME enable/picker/keyboard status/test EditText; instrumentation verification test; emulator workflow; V2.1 approved visual baseline recorded in Feature 001/002 specs. Both handwritten ink and voice will live on ONE IME panel; fixed microphone; dark-first, light secondary. VG-01/VG-02 human visual PASS.
+VERIFY: prior HEAD e33cb42 Android/governance PASS. HEAD ea523db Android assembleDebug/lintDebug/testDebugUnitTest + governance PASS (runs 38065051823, 38065051912); emulator run 38065051823 FAIL at adb shell ime list -s grep before enabling; emulator boot, app and test-APK compilation and app installation SUCCESS, instrumentation NOT EXECUTED. Cause: ime list without -a lists only enabled IMEs. Workflow corrected to list -a -s BEFORE enable, verify enabled list after enable, then select + run tests. New HEAD requires fresh CI.
+GATES: T008 emulator instrumentation, actual user picker/focus behavior and device test OPEN. VG-01/VG-02 PASS visually; VG-03/04/05 technical/runtime/device OPEN. Voice engine VOICE-ENGINE-001 and VOICE-OFFLINE-001 OPEN; handwriting recognizer T013 OPEN; ADR and constitution not ratified. No Chi-specific merge authorization.
+BLOCKERS: no verified Android device input interaction nor recognition/stylus, offline/model or microphone behavior.
+INVARIANTS: REAL STATE > HANDOFF > MEMORY > CHAT; VERIFY-FIRST; OFFLINE-001 = B means explicit one-time handwriting model download allowed then on-device only; no strokes/audio upload; no inherited auto-merge; never infer device validation from build.
+NEXT: check exact PR HEAD; consume new Android/governance/emulator CI; on fail diagnose and fix real issue. Keep T008 open until emulator and focus evidence; then T009 InkCanvas and T010 editor safety in the approved layout, without adopting unapproved engine.
+VERIFY-FIRST: fetch PR #1 head, checks, job logs, recent concurrent commits, docs/skills/ADR/specs, verify no competing work, rerun/inspect emulator and real device acceptance before claiming T008 PASS.

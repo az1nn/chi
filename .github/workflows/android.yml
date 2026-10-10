@@ -64,7 +64,8 @@ jobs:
           script: |
             gradle --no-daemon :app:assembleDebug :app:assembleDebugAndroidTest
             adb install -r app/build/outputs/apk/debug/app-debug.apk
-            adb shell ime list -s | grep -F 'dev.az1nn.chi/.ime.ChiInputMethodService'
+            adb shell ime list -a -s | grep -F 'dev.az1nn.chi/.ime.ChiInputMethodService'
             adb shell ime enable dev.az1nn.chi/.ime.ChiInputMethodService
+            adb shell ime list -s | grep -F 'dev.az1nn.chi/.ime.ChiInputMethodService'
             adb shell ime set dev.az1nn.chi/.ime.ChiInputMethodService
             gradle --no-daemon :app:connectedDebugAndroidTest
