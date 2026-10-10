@@ -10,4 +10,15 @@
     <string name="key_delete">Apagar</string>
     <string name="key_switch">Trocar</string>
     <string name="key_switch_accessibility">Trocar para outro teclado</string>
+    <string name="setup_title">Configurar Chi</string>
+    <string name="setup_description">Ative o Chi nas configurações do Android, selecione-o como teclado e teste abaixo.</string>
+    <string name="setup_privacy_warning">Atenção: um teclado pode acessar o texto digitado. Chi ainda é experimental: escrita e voz não estão disponíveis. Não use para dados sensíveis.</string>
+    <string name="setup_enable">1. Habilitar Chi no Android</string>
+    <string name="setup_select">2. Selecionar teclado</string>
+    <string name="setup_status_disabled">Status: Chi não habilitado.</string>
+    <string name="setup_status_enabled">Status: habilitado; selecione Chi no seletor.</string>
+    <string name="setup_status_selected">Status: Chi selecionado; toque no campo de teste.</string>
+    <string name="setup_settings_unavailable">Configurações de teclado indisponíveis neste dispositivo.</string>
+    <string name="setup_test_label">3. Teste local (apenas espaço e apagar nesta versão)</string>
+    <string name="setup_test_hint">Toque para abrir o teclado</string>
 </resources>
