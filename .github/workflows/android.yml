@@ -1,0 +1,71 @@
+name: Chi Android (build, lint, unit)
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.13"
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+      - name: Install pinned Android SDK components
+        run: sdkmanager --install "platforms;android-36" "build-tools;35.0.0"
+      - name: Build APK, lint, unit tests (not instrumentation)
+        run: gradle --no-daemon :app:assembleDebug :app:lintDebug :app:testDebugUnitTest
+      - name: Attach experimental debug APK for controlled device smoke tests
+        uses: actions/upload-artifact@v4
+        with:
+          name: chi-ime-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 7
+          if-no-files-found: error
+
+  ime-emulator-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.13"
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+      - name: Install compile SDK
+        run: sdkmanager --install "platforms;android-36" "build-tools;35.0.0"
+      - name: Allow KVM acceleration
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Boot emulator, enable/select Chi, run instrumentation
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          script: |
+            gradle --no-daemon :app:assembleDebug :app:assembleDebugAndroidTest
+            adb install -r app/build/outputs/apk/debug/app-debug.apk
+            adb shell ime list -a -s | grep -F 'dev.az1nn.chi/.ime.ChiInputMethodService'
+            adb shell ime enable dev.az1nn.chi/.ime.ChiInputMethodService
+            adb shell ime list -s | grep -F 'dev.az1nn.chi/.ime.ChiInputMethodService'
+            adb shell ime set dev.az1nn.chi/.ime.ChiInputMethodService
+            gradle --no-daemon :app:connectedDebugAndroidTest
