@@ -83,3 +83,25 @@ Sem imagens rasterizadas para componentes funcionais; o mockup é **conceitual**
 - **VG-04 NOT VERIFIED:** permissão mic, privacidade, readiness de modelo e offline de voz (testar separadamente).
 - **VG-05 NOT VERIFIED:** APK/testes de dispositivo/latência/reconhecimento real.
 - Merge do PR #1 não autorizado por este documento. Manter status de proposta até aprovação humana da nova imagem.
+
+## 8. Aprovação humana — baseline visual V2.1 (2026-10-10)
+
+**APPROVED — VISUAL ONLY.** Aprovada a última prancha de Chi com três estados do MESMO teclado Android: escrita manuscrita, captura de voz e prévia de texto. A composição e o modo escuro passam a ser baseline visual; o **light mode V2 anterior permanece aprovado como alternativa**. A prancha V1 urbana permanece REJECTED.
+
+### Decisões vinculantes de UI
+1. **Superfície única:** escrita à mão e voz convivem no mesmo painel IME, sem navegar para outra página nem alternar entre Activities para essas tarefas.
+2. **Microfone fixo e sempre visível:** botão circular na posição superior direita da barra do Chi, inclusive enquanto a caneta está ativa e durante revisão; tocar inicia a sequência explícita de captura/permissão, nunca gravação automática ao abrir a IME.
+3. **Dark mode padrão:** fundo grafite profundo, canvas escuro, traços claros, azul apenas para ação principal e microfone. Light mode aprovado, disponível como modo secundário.
+4. **Revisão e commit:** resultado de escrita ou voz é mostrado no mesmo painel; botão Inserir realiza commit explícito ao editor ativo, protegido contra foco obsoleto e campos sensíveis.
+5. **Layout essencial:** header Chi + Limpar + mic fixo; canvas/estado de áudio/resultado; campo de prévia; rodapé compacto com Inserir e alternância de teclado quando necessária.
+6. **Sem scope creep:** não incluir dicionário, histórico, assistente, feed, telas de chat próprias, customização extensa, recursos de áudio não especificados ou upload de conteúdo.
+7. **Privacidade/offline:** preservado OFFLINE-001=B para escrita; motor de voz e offline de voz ainda dependem de seleção e testes próprios. A frase “funciona sem internet” na arte é uma intenção, não prova de runtime.
+
+### Aprovação e gates
+- **VG-01: PASS (human visual)** — composição dark-first e identidade minimalista.
+- **VG-02: PASS (human visual)** — escrita + voz na mesma IME, microfone persistente, prévia e Inserir.
+- **VG-03: PENDING TECHNICAL** — adaptação de telas, light/dark, acessibilidade, contraste, tamanho de toque e IME insets.
+- **VG-04: PENDING RUNTIME** — permissão de microfone, recognizer pt-BR, privacidade/offline e cancelamento seguro.
+- **VG-05: PENDING DEVICE** — build, screenshots reais, reconhecimento, latência e testes físicos.
+
+**Evidência de aceite:** aprovação explícita do usuário no chat após a prancha V2.1 (2026-10-10). Mockup aprovado não equivale a APK funcional, nem autoriza merge do PR #1.
