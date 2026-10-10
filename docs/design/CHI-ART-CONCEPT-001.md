@@ -1,5 +1,5 @@
-# CHI-ART-CONCEPT-001 — Dual Input (V2)
-**Versão:** 0.2.0 · **Data:** 2026-10-09 · **Status:** PROPOSED — HUMAN VISUAL APPROVAL PENDING
+# CHI-ART-CONCEPT-001 — Dual Input (V2.1)
+**Versão:** 0.2.1 · **Data:** 2026-10-10 · **Status:** APPROVED VISUAL (VG-01/VG-02 PASS), RUNTIME PENDING
 **Histórico:** V1 (prancha urbana/dark complexa) = **REJECTED** em 2026-10-09. NÃO utilizar V1 como referência aprovada, nem herdar dicionário pessoal, temas, chat de exemplo, logo ilustrado, teclado QWERTY ou adornos.
 
 ## 1. Intenção do produto
@@ -9,6 +9,8 @@ North star: **“Escreva ou fale. Vira texto.”**
 
 ### Fora da direção visual V1
 Não apresentar chats de terceiros como parte do Chi, dicionário, perfis, login, feed, atalhos, temas customizados, transcrição de arquivos, assistente conversacional, IA generativa, corretor gramatical, efeitos 3D, paisagens, decoração urbana ou calendário. Configurações somente quando estritamente necessárias para ativar a IME, conceder microfone e preparar modelos.
+
+> **Registro histórico:** as seções 2–7 descrevem a proposta V2 superada. Em qualquer conflito, a **seção 8 — baseline V2.1 aprovado — prevalece**: uma única superfície IME para escrita e voz, microfone fixo no canto superior direito, dark mode padrão, light mode alternativo aprovado. Não implementar navegação em abas separadas com base nos exemplos antigos.
 
 ## 2. Conceito visual
 - **Minimalismo funcional, light-first:** fundo off-white, tinta grafite, uma única cor de ação azul-índigo. Muito espaço de escrita e poucos controles.
@@ -76,7 +78,7 @@ Sem imagens rasterizadas para componentes funcionais; o mockup é **conceitual**
 - Nenhum texto, áudio ou stroke deve ir para analytics, logs ou backend.
 - A fonte da proposta de voz está em `specs/002-voice-transcription/`. A V1 do handwriting não é automaticamente considerada entregue.
 
-## 7. Gates de aceite
+## 7. Gates de aceite históricos da V2 (estado vigente na seção 8)
 - **VG-01 PENDING HUMAN:** mockup V2 minimalista, light-first, **Escrita | Voz** e prévia + Inserir.
 - **VG-02 PENDING HUMAN:** sem menu, dicionário, tema, chat ou personalizações; estados S01–S05 coerentes.
 - **VG-03 NOT VERIFIED:** tela pequena/landscape/dark/large fonts/accessibility.

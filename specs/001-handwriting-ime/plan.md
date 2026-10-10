@@ -49,7 +49,7 @@ Start as one Android app module with package boundaries; avoid modules or depend
 - Human: OFFLINE-001 approved as option B on 2026-10-09; preserve any separate architecture/device/PR review or merge gates when they arise.
 - Automated: GitHub Actions run `37995370625` on commit `1999d90f` passed `assembleDebug`, `lintDebug` and `testDebugUnitTest`; subsequent documentation/CI artifact commits require exact-HEAD recheck. This is a build and isolated test gate, not emulator/device/airplane-mode proof.
 
-## Visual design reference (PROPOSED)
-- Candidate art concept: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), visual approval pending.
+## Visual design reference (V2.1 APPROVED VISUAL)
+- Art concept: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), VG-01/VG-02 PASS 2026-10-10: same IME panel for ink/voice, persistent mic, dark default, light secondary.
 - S01–S05 map to onboarding, IME canvas, candidates/explicit insert, initial model download and sensitive editors.
-- Do not treat concept art as Android runtime evidence, an approved visual baseline or a change to OFFLINE-001=B. Implement only after appropriate design gate and device/accessibility validation.
+- Approved visual baseline does not imply Android runtime evidence or change OFFLINE-001=B. VG-03/VG-04/VG-05 remain open. Implement only after appropriate design gate and device/accessibility validation.

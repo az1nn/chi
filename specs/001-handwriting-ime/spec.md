@@ -49,3 +49,7 @@ Predictive typing, autocorrect dictionaries, synchronization, user accounts, clo
 
 ## Source of truth
 This is a product specification, not proof of implementation. OFFLINE-001 is decided; `plan.md` remains provisional until the recognizer's pt-BR support, download UX, Android SDK baseline and exact dependencies are verified.
+
+
+## Approved interaction baseline (CHI-ART-CONCEPT-001 V2.1, 2026-10-10)
+The IME will use a **single panel** for handwriting and speech preview with a **persistent microphone action** at top right (not separate app pages), explicit preview/Inserir, dark-first and an approved optional light mode. VG-01/VG-02 are visual PASS, not native UI or runtime PASS. Feature 002 has separate microphone/engine/offline gates. T008 onboarding can proceed without claiming ink/voice functionality.
