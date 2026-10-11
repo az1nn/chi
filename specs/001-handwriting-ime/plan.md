@@ -1,6 +1,6 @@
 # Plan — Feature 001 Handwriting IME
 
-**Status:** IMPLEMENTING — T006/T007 Android foundation compiled in CI; runtime/device gates open | **2026-10-09**
+**Status:** IMPLEMENTING — T009 stylus-only ink canvas/session source committed `f17657f` on 2026-10-11; exact-HEAD build/UX not yet verified. T008 device gate open; no recognition | **2026-10-11**
 
 ## Proposed architecture (minimal first)
 
@@ -30,7 +30,8 @@ Start as one Android app module with package boundaries; avoid modules or depend
 - Define model readiness as `NOT_INSTALLED → DOWNLOADING → READY` with `FAILED`, retry and cancellation paths. The UI must distinguish downloading a language model from sending handwriting, which is prohibited.
 - Never silently download, auto-switch to cloud inference, or commit stale candidates on model/focus changes.
 - **T006 technical baseline pinned:** JDK 17 / Gradle 8.13 / AGP 8.13.2 / Kotlin 2.3.10 / compileSdk 36 / targetSdk 36 / minSdk 26 / SDK build tools 35.0.0; CI includes Android SDK package installation. This is an implementation baseline, not constitution ratification or an OEM compatibility claim.
-- **T007 initial boundary:** single app module, real `InputMethodService` declaration and subtype metadata; initial text controls and basic sensitive editor classification. The placeholder does not capture or recognize ink. Picker is implemented via API-26-compatible `InputMethodManager.showInputMethodPicker()`. Full onboarding/IME instrumentation belongs to T008.
+- **T007 initial boundary:** single app module, real `InputMethodService` declaration and subtype metadata; initial text controls and sensitive editor classification. Picker via `InputMethodManager.showInputMethodPicker()`.
+- **T009 new source boundary (2026-10-11):** `ink/InkSession` tracks bounded ordered stylus points/strokes in memory, supports clear/cancel/undo and immutable snapshots; `InkCanvasView` draws only stylus pointers, ignores fingers/palms provisionally. The same dark-first IME panel shows this canvas with a fixed *disabled* microphone placeholder. In-progress/finished ink is discarded on editor start/end and in sensitive editors. No recognition service, model/network permission, persistence or auto-commit. **Stylus-only vs finger support is an open acceptance decision**, not assumed final. Canvas compilation, keyboard-size behavior and real-device acceptance are pending.
 
 ## Verification strategy
 1. Static specifications and skill contract checks via `python3 scripts/verify_repo.py`.
@@ -38,6 +39,11 @@ Start as one Android app module with package boundaries; avoid modules or depend
 3. Emulator/device input-method enable/switch, focus-change and `InputConnection` tests.
 4. Pen stroke and recognition tests in airplane mode **after a ready local model**, plus cold-install offline behavior (explicit setup state and no inference/network fallback), failed/canceled/retried model download, and privacy/no-stroke-upload evidence.
 5. p95 latency sample with explicit device/OS, number of strokes, model and test corpus.
+
+## Checkpoints and evidence
+- CI run for prior code `c5f1f32` proved build/lint/unit, emulator activation/instrumentation. New T009 code on `f17657f` has **no PASS claim before exact-HEAD CI completes**.
+- Human reported installation and app launch (2026-10-11) apply to earlier experimental APK only, not the new T009 canvas.
+- [CHI-TEST-MATRIX-001](../../docs/qa/CHI-TEST-MATRIX-001.md) separates test classes and pending evidence. No manual-device gate is silently waived.
 
 ## Risks
 - R1: user cannot recognize ink before an initial model download (accepted V1 constraint); setup progress, retry, storage availability and no-network UX require testing.
