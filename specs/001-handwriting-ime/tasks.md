@@ -1,6 +1,6 @@
 # Tasks — Feature 001
 
-**State:** IMPLEMENTING; T001–T007 completed at source/build level. Android IME device activation, ink and recognition are not verified/implemented.
+**State:** IMPLEMENTING; T001–T007 completed; T008 partial (emulator PASS; human Android install/launch PASS, 2026-10-11). Real-device keyboard activation/selection and editor interaction remain unverified; ink and recognition are not implemented.
 
 ## Phase 0 — Governance / setup
 - [x] T001 [P] Record Chi constitution and first feature spec, plan, task ledger in Git.
@@ -12,7 +12,7 @@
 ## Phase 1 — Minimum native keyboard (US1)
 - [x] T006 Initialize Android/Kotlin Gradle app, build and lint configuration. JDK 17 / Gradle 8.13 / AGP 8.13.2 / Kotlin 2.3.10 / SDK 36; Android CI `37995370625` PASS (`assembleDebug`, `lintDebug`, `testDebugUnitTest`).
 - [x] T007 Register `InputMethodService`, manifest and IME subtype metadata and minimal explicit text controls. Compile/lint PASS at `1999d90f`; **enable/select/device behavior still T008**, not claimed.
-- [ ] T008 Implement a setup/enable/switch keyboard flow and device instrumentation tests. **Onboarding source and emulator test workflow committed at 9eab7198; completion requires green emulator CI plus focus/interaction evidence.**
+- [ ] T008 Implement a setup/enable/switch keyboard flow and device instrumentation tests. **PARTIAL:** onboarding source committed at `9eab7198`; emulator `ime-emulator-smoke` **PASS** for `c5f1f32` (run `38065410516`); operator's physical-device APK installation and application launch **PASS (2026-10-11, reported by user)**. Still **OPEN**: human evidence of Chi enabled/selected as the active keyboard, focus + typing/input controls in a real external editor, and safe behavior for sensitive fields; device model/Android version and screenshots not provided.
 
 ## Phase 2 — Writing and editor safety (US2, US3)
 - [ ] T009 Implement InkCanvas and ordered strokes with deterministic tests.
@@ -32,7 +32,7 @@
 - [ ] T019 Converge spec / plan / tasks / ADR / observed behavior; final handoff.
 
 ## Dependencies
-T004 (official Spec Kit integration), T005 (OFFLINE-001=B), T006 (Kotlin Gradle baseline) and T007 (IME registration/source) are complete with their stated evidence; T008 (real enable/switch onboarding and instrumentation) is next. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T006..T012 precede T014..T018. Preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
+T004 (official Spec Kit integration), T005 (OFFLINE-001=B), T006 (Kotlin Gradle baseline) and T007 (IME registration/source) are complete with their stated evidence; T008 (complete real-device enable/select, editor-focus and privacy acceptance) remains open. Emulator instrumentation is green at tested HEAD `c5f1f32`; installing and launching the APK on an Android device has been confirmed by the operator (2026-10-11), not real-device IME input. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T006..T012 precede T014..T018. Preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
 
 ## Visual design gate (supplemental to T008/T009/T011/T013–T018)
 - [x] Candidate concept documented: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), V2.1 **APPROVED VISUAL** (not runtime).
