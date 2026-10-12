@@ -65,3 +65,9 @@ Start as one Android app module with package boundaries; avoid modules or depend
 - Future candidate commits require a focus-generation token and fail closed for null, unsupported, sensitive or stale editors. Manual space/delete remains available in an active sensitive editor; ink capture stays blocked there.
 - Editor start/finish and input-view lifecycle transitions invalidate previous tokens. Candidate UI and recognizer remain T011–T014.
 - CI's bounded post-install registry discovery wait does not waive IME activation or instrumentation assertions.
+
+## T012 — RecognitionCoordinator seam (2026-10-12; verification pending)
+- Pure Kotlin `recognition/InkRecognizer` is an async, cancellable adapter contract. No vendor, dependency, model download or network permission is selected or added.
+- `RecognitionCoordinator` invalidates pending work and transient candidates on caller lifecycle/focus/ink changes. Request IDs discard late callbacks even from recognizers that ignore cancellation; caller must invoke `invalidate()` on every such transition.
+- Only explicit single-use candidate selection can reach the caller-provided commit function, and only for the editor epoch captured at submission. The IME will wire this to `EditorGateway.commitCandidate` under T011/T014; there is currently **no** recognition request from the UI and no text insertion from recognition.
+- Distinct empty/unavailable/error outcomes are fail-closed. No raw text is logged/persisted/uploaded. Eleven deterministic unit cases require CI confirmation.

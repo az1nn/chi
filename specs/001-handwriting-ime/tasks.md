@@ -18,7 +18,7 @@
 - [ ] T009 Implement InkCanvas and ordered strokes with deterministic tests. **SOURCE IMPLEMENTED, VERIFY PENDING**: commits `80c2a31` + `f17657f`; stylus-only in-memory stroke canvas, bounds, ordered timestamps, clear, cancel/undo, deterministic unit test suite (7 cases), and IME lifecycle + sensitive-field clear. Await exact-HEAD build/lint/unit/emulator and human visual/stylus evidence. Do not check off until verified.
 - [ ] T010 Implement EditorGateway/active InputConnection and sensitive-input tests. **SOURCE IMPLEMENTED, VERIFY PENDING (2026-10-12):** live connection callbacks, focus-generation guard, candidate/space/delete separation, no-editor/sensitive-field JUnit tests. Exact-HEAD Android/emulator CI and device verification still required.
 - [ ] T011 Implement candidate, space, delete and clear UI, with accessibility checks.
-- [ ] T012 Implement RecognitionCoordinator cancellation and no-stale-commit tests.
+- [ ] T012 Implement RecognitionCoordinator cancellation and no-stale-commit tests. **SOURCE IMPLEMENTED, VERIFY PENDING (2026-10-12):** vendor-independent `InkRecognizer` async contract, cancellation handles, immutable stroke snapshots, focus-epoch matching, fail-closed result states, explicit single-use candidate selection and 11 deterministic tests. Not connected to IME UI or a real recognizer; require exact-HEAD Android/unit CI and future integration before checking off.
 
 ## Phase 3 — Recognition (US2, US4)
 - [ ] T013 Evaluate and select an on-device recognizer compatible with OFFLINE-001=B; verify pt-BR support, initial model download API/UX, dependencies, licensing, privacy and offline evidence. Documentary feasibility in `research.md`; vendor selection and runtime evidence still pending.
