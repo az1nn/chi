@@ -59,3 +59,9 @@ Start as one Android app module with package boundaries; avoid modules or depend
 - Art concept: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), VG-01/VG-02 PASS 2026-10-10: same IME panel for ink/voice, persistent mic, dark default, light secondary.
 - S01–S05 map to onboarding, IME canvas, candidates/explicit insert, initial model download and sensitive editors.
 - Approved visual baseline does not imply Android runtime evidence or change OFFLINE-001=B. VG-03/VG-04/VG-05 remain open. Implement only after appropriate design gate and device/accessibility validation.
+
+## T010 — EditorGateway seam (2026-10-12; CI pending)
+- Pure Kotlin `EditorGateway` mediates explicit space/backspace and future candidate commits; the IME resolves the active `currentInputConnection` only when the action executes.
+- Future candidate commits require a focus-generation token and fail closed for null, unsupported, sensitive or stale editors. Manual space/delete remains available in an active sensitive editor; ink capture stays blocked there.
+- Editor start/finish and input-view lifecycle transitions invalidate previous tokens. Candidate UI and recognizer remain T011–T014.
+- CI's bounded post-install registry discovery wait does not waive IME activation or instrumentation assertions.

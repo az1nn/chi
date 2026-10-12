@@ -16,7 +16,7 @@
 
 ## Phase 2 — Writing and editor safety (US2, US3)
 - [ ] T009 Implement InkCanvas and ordered strokes with deterministic tests. **SOURCE IMPLEMENTED, VERIFY PENDING**: commits `80c2a31` + `f17657f`; stylus-only in-memory stroke canvas, bounds, ordered timestamps, clear, cancel/undo, deterministic unit test suite (7 cases), and IME lifecycle + sensitive-field clear. Await exact-HEAD build/lint/unit/emulator and human visual/stylus evidence. Do not check off until verified.
-- [ ] T010 Implement EditorGateway/active InputConnection and sensitive-input tests.
+- [ ] T010 Implement EditorGateway/active InputConnection and sensitive-input tests. **SOURCE IMPLEMENTED, VERIFY PENDING (2026-10-12):** live connection callbacks, focus-generation guard, candidate/space/delete separation, no-editor/sensitive-field JUnit tests. Exact-HEAD Android/emulator CI and device verification still required.
 - [ ] T011 Implement candidate, space, delete and clear UI, with accessibility checks.
 - [ ] T012 Implement RecognitionCoordinator cancellation and no-stale-commit tests.
 
@@ -32,7 +32,7 @@
 - [ ] T019 Converge spec / plan / tasks / ADR / observed behavior; final handoff.
 
 ## Dependencies
-T004 (official Spec Kit integration), T005 (OFFLINE-001=B), T006 (Kotlin Gradle baseline) and T007 (IME registration/source) are complete with their stated evidence; T008 (complete real-device enable/select, editor-focus and privacy acceptance) remains open. Emulator instrumentation is green at tested HEAD `c5f1f32`; installing and launching the APK on an Android device has been confirmed by the operator (2026-10-11), not real-device IME input. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T009 source work can proceed independently of T008 human-device gate; both remain OPEN pending their distinct evidence. T006..T012 precede T014..T018. See `../../docs/qa/CHI-TEST-MATRIX-001.md`; preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
+T004 (official Spec Kit integration), T005 (OFFLINE-001=B), T006 (Kotlin Gradle baseline) and T007 (IME registration/source) are complete with their stated evidence; T008 (complete real-device enable/select, editor-focus and privacy acceptance) remains open. Emulator instrumentation is green at tested HEAD `c5f1f32`; installing and launching the APK on an Android device has been confirmed by the operator (2026-10-11), not real-device IME input. T013 vendor research is unblocked but requires evidence before T014 adapter implementation. T009/T010 source work can proceed independently of T008 human-device gate; all remain OPEN pending distinct evidence. CI now retries immediate post-install IME registry discovery within a bounded interval, retaining all enable/select/instrumentation gates. T006..T012 precede T014..T018. See `../../docs/qa/CHI-TEST-MATRIX-001.md`; preserve uncompleted tasks and gate evidence; never claim an Android build or usable IME before device tests.
 
 ## Visual design gate (supplemental to T008/T009/T011/T013–T018)
 - [x] Candidate concept documented: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), V2.1 **APPROVED VISUAL** (not runtime).

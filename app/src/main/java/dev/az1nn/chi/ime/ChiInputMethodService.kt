@@ -18,6 +18,11 @@ import dev.az1nn.chi.ink.InkSession
  */
 class ChiInputMethodService : InputMethodService() {
     private val inkSession = InkSession()
+    // Resolve the active InputConnection only at action time.
+    private val editorGateway = EditorGateway(
+        commitText = { text -> currentInputConnection?.commitText(text, 1) == true },
+        deleteOneBeforeCursor = { currentInputConnection?.deleteSurroundingText(1, 0) == true }
+    )
     private var statusLabel: TextView? = null
     private var inkCanvas: InkCanvasView? = null
     private var clearButton: Button? = null
@@ -70,12 +75,8 @@ class ChiInputMethodService : InputMethodService() {
             return button
         }
         clearButton = addKey(R.string.ink_clear) { inkSession.clear(); canvas.invalidate() }
-        addKey(R.string.key_space) {
-            currentInputConnection?.commitText(" ", 1)
-        }
-        addKey(R.string.key_delete) {
-            currentInputConnection?.deleteSurroundingText(1, 0)
-        }
+        addKey(R.string.key_space) { editorGateway.insertSpace() }
+        addKey(R.string.key_delete) { editorGateway.deleteBeforeCursor() }
         addKey(R.string.key_switch, R.string.key_switch_accessibility) {
             (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).showInputMethodPicker()
         }
@@ -87,26 +88,31 @@ class ChiInputMethodService : InputMethodService() {
 
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
         super.onStartInput(attribute, restarting)
+        editorGateway.onEditorStarted(attribute?.inputType)
         clearInk()
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        editorGateway.onEditorStarted(info?.inputType)
         clearInk()
         updateStatus(info)
     }
 
     override fun onFinishInputView(finishingInput: Boolean) {
+        editorGateway.onEditorFinished()
         clearInk()
         super.onFinishInputView(finishingInput)
     }
 
     override fun onFinishInput() {
+        editorGateway.onEditorFinished()
         clearInk()
         super.onFinishInput()
     }
 
     override fun onDestroy() {
+        editorGateway.onEditorFinished()
         clearInk()
         inkCanvas = null
         statusLabel = null

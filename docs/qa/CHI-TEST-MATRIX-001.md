@@ -1,15 +1,16 @@
 # CHI-TEST-MATRIX-001 — Chi V1
-**Date:** 2026-10-11  | **Workstream:** Feature 001 PR #1  | **Policy:** develop independent work without waiving evidence gates.
+**Date:** 2026-10-12  | **Workstream:** Feature 001 PR #1  | **Policy:** develop independent work without waiving evidence gates.
 
 Status types: **PASS** = verified evidence; **PENDING** = not yet verified; **BLOCKED** = dependent feature not implemented.
 
 | ID | Test / acceptance | Status | Evidence or required action |
 |---|---|---|---|
-| CI-01 | Android assembleDebug | PENDING new HEAD | Last PASS on `c5f1f32`, Actions `38065410516`; rerun for new T009 canvas |
-| CI-02 | Android lintDebug | PENDING new HEAD | Same prior run; exact-HEAD lint required |
-| CI-03 | Android testDebugUnitTest / InkSession deterministic tests | PENDING new HEAD | 7 newly added unit tests: order, interruption, clear, snapshot, invalid events, bounds and undo |
-| CI-04 | Android emulator IME registration/selection/instrumentation | PENDING new HEAD | Prior PASS on `c5f1f32`; re-run after canvas changes |
-| GOV-01 | Spec Kit / governance validation | PENDING new HEAD | Prior PASS; exact-HEAD check required |
+| CI-01 | Android assembleDebug | PENDING new HEAD | Build PASS in Android job run `38149242750` at `029e2d1`; recheck new T010 HEAD |
+| CI-02 | Android lintDebug | PENDING new HEAD | Lint PASS in run `38149242750` at `029e2d1`; recheck new HEAD |
+| CI-03 | Android testDebugUnitTest / InkSession deterministic tests | PENDING new HEAD | 7 InkSession unit cases plus 6 new EditorGateway focus/privacy cases; recheck new HEAD |
+| CI-04 | Android emulator IME registration/selection/instrumentation | PENDING new HEAD | Run `38149242750` failed after APK install at immediate registry check, before enable/set/instrumentation; bounded wait added, new HEAD required |
+| GOV-01 | Spec Kit / governance validation | PENDING new HEAD | Governance PASS at `029e2d1` run `38149242748`; new HEAD required |
+| CI-05 | Post-install IME registry discovery within bounded wait; enable/set/instrumentation mandatory | PENDING new HEAD | Previously passed at `f17657f`; failed immediate check at `029e2d1`; 30-second bounded retry added |
 | PHY-01 | Install APK and open app on real Android | PASS (older APK) | Operator report on 2026-10-11, prior `c5f1f32` build only |
 | PHY-02 | Enable/select Chi as system keyboard | PENDING | Capture device model, Android version and user acceptance |
 | PHY-03 | Focus in both Chi setup EditText and external editor; space/delete/switch | PENDING | Device interaction evidence; T008 |
