@@ -13,7 +13,11 @@ import android.view.View
  * No recognition, storage, networking, or text insertion happens here.
  * Finger/palm input is deliberately ignored pending a separate acceptance decision.
  */
-class InkCanvasView(context: Context, private val session: InkSession) : View(context) {
+class InkCanvasView(
+    context: Context,
+    private val session: InkSession,
+    private val onInkChanged: () -> Unit = {}
+) : View(context) {
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.rgb(152, 226, 220)
         style = Paint.Style.STROKE
@@ -52,6 +56,7 @@ class InkCanvasView(context: Context, private val session: InkSession) : View(co
             if (pointerId == null) return false
             session.cancel()
             pointerId = null
+            onInkChanged()
             invalidate()
             return true
         }
@@ -61,6 +66,7 @@ class InkCanvasView(context: Context, private val session: InkSession) : View(co
                 if (event.getToolType(0) != MotionEvent.TOOL_TYPE_STYLUS) return false
                 if (!session.begin(event.getX(0), event.getY(0), event.eventTime)) return false
                 pointerId = event.getPointerId(0)
+                onInkChanged()
                 invalidate()
                 return true
             }
@@ -70,11 +76,12 @@ class InkCanvasView(context: Context, private val session: InkSession) : View(co
                 if (i < 0) {
                     session.cancel()
                     pointerId = null
+                    onInkChanged()
                     invalidate()
                     return true
                 }
                 // The view owns only the accepted stylus pointer; palm contacts are ignored.
-                session.append(event.getX(i), event.getY(i), event.eventTime)
+                if (session.append(event.getX(i), event.getY(i), event.eventTime)) onInkChanged()
                 invalidate()
                 return true
             }
@@ -84,6 +91,7 @@ class InkCanvasView(context: Context, private val session: InkSession) : View(co
                 if (event.getPointerId(i) != active) return true
                 session.end(event.getX(i), event.getY(i), event.eventTime)
                 pointerId = null
+                onInkChanged()
                 invalidate()
                 performClick()
                 return true
