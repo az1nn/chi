@@ -9,6 +9,14 @@
     <string name="ime_sensitive">Campo sensível: captura e reconhecimento desativados.</string>
     <string name="ink_canvas_accessibility">Área de escrita à mão com caneta. Ainda não converte em texto.</string>
     <string name="ink_clear">Limpar</string>
+    <string name="candidate_unavailable">Prévia: reconhecimento offline ainda não integrado.</string>
+    <string name="candidate_sensitive">Prévia indisponível neste campo.</string>
+    <string name="candidate_processing">Reconhecendo escrita…</string>
+    <string name="candidate_failed">Não foi possível reconhecer. Revise a escrita.</string>
+    <string name="candidate_preview">Prévia: %1$s</string>
+    <string name="candidate_insert">Inserir</string>
+    <string name="candidate_insert_accessibility">Inserir candidato confirmado no campo atual</string>
+    <string name="candidate_choice_accessibility">Candidato %1$d: %2$s</string>
     <string name="voice_icon">🎤</string>
     <string name="voice_unavailable">Microfone indisponível nesta versão</string>
     <string name="key_space">Espaço</string>
