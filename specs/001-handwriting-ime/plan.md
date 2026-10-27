@@ -1,0 +1,73 @@
+# Plan — Feature 001 Handwriting IME
+
+**Status:** IMPLEMENTING — T009 stylus-only ink canvas/session source committed `f17657f` on 2026-10-11; exact-HEAD build/UX not yet verified. T008 device gate open; no recognition | **2026-10-11**
+
+## Proposed architecture (minimal first)
+
+```text
+Android keyboard (InputMethodService)
+    ├── InkCanvas + input controls
+    ├── InkSession (ordered strokes + clear/undo)
+    ├── RecognitionCoordinator (cancel/stale-result protection)
+    │      └── InkRecognizer interface
+    │            └── model-specific adapter (selection pending T013)
+    └── EditorGateway (InputConnection; commit / delete / space)
+```
+
+Start as one Android app module with package boundaries; avoid modules or dependency injection frameworks without concrete needs.
+
+## Requirements-to-contract map
+- US1/FR-001: `InputMethodService`, manifest and settings/IME picker instrumentation.
+- US2/FR-002..004: ink stroke data object, recognizer interface, candidate state and explicit commit.
+- US3/FR-005..006: editor gateway and focus-safe cancellation.
+- US4/FR-007..008: no-content-network design and model-readiness states.
+- US5: fail-closed editor/model lifecycle behavior and UI feedback.
+
+## Android and recognition decision
+- IME-hosted handwriting canvas is baseline for widest compatibility; OS stylus handwriting callbacks are an optional separate adapter on API 33+.
+- **OFFLINE-001 = B (approved 2026-10-09):** first-run model download may use network after explicit user action; subsequent recognition must be on-device and usable in airplane mode. Cold-install offline recognition is out of scope.
+- Google ML Kit Digital Ink remains a leading **candidate**, not an approved dependency. Official documentation supports `pt-BR` and dynamic model download (about 20 MB per language) with Android library API floor 23. Exact dependency versions, license and runtime evidence are still pending; see `research.md` (T013).
+- Define model readiness as `NOT_INSTALLED → DOWNLOADING → READY` with `FAILED`, retry and cancellation paths. The UI must distinguish downloading a language model from sending handwriting, which is prohibited.
+- Never silently download, auto-switch to cloud inference, or commit stale candidates on model/focus changes.
+- **T006 technical baseline pinned:** JDK 17 / Gradle 8.13 / AGP 8.13.2 / Kotlin 2.3.10 / compileSdk 36 / targetSdk 36 / minSdk 26 / SDK build tools 35.0.0; CI includes Android SDK package installation. This is an implementation baseline, not constitution ratification or an OEM compatibility claim.
+- **T007 initial boundary:** single app module, real `InputMethodService` declaration and subtype metadata; initial text controls and sensitive editor classification. Picker via `InputMethodManager.showInputMethodPicker()`.
+- **T009 new source boundary (2026-10-11):** `ink/InkSession` tracks bounded ordered stylus points/strokes in memory, supports clear/cancel/undo and immutable snapshots; `InkCanvasView` draws only stylus pointers, ignores fingers/palms provisionally. The same dark-first IME panel shows this canvas with a fixed *disabled* microphone placeholder. In-progress/finished ink is discarded on editor start/end and in sensitive editors. No recognition service, model/network permission, persistence or auto-commit. **Stylus-only vs finger support is an open acceptance decision**, not assumed final. Canvas compilation, keyboard-size behavior and real-device acceptance are pending.
+
+## Verification strategy
+1. Static specifications and skill contract checks via `python3 scripts/verify_repo.py`.
+2. Once Android files exist: Gradle lint/test/build on pinned Android toolchain.
+3. Emulator/device input-method enable/switch, focus-change and `InputConnection` tests.
+4. Pen stroke and recognition tests in airplane mode **after a ready local model**, plus cold-install offline behavior (explicit setup state and no inference/network fallback), failed/canceled/retried model download, and privacy/no-stroke-upload evidence.
+5. p95 latency sample with explicit device/OS, number of strokes, model and test corpus.
+
+## Checkpoints and evidence
+- CI run for prior code `c5f1f32` proved build/lint/unit, emulator activation/instrumentation. New T009 code on `f17657f` has **no PASS claim before exact-HEAD CI completes**.
+- Human reported installation and app launch (2026-10-11) apply to earlier experimental APK only, not the new T009 canvas.
+- [CHI-TEST-MATRIX-001](../../docs/qa/CHI-TEST-MATRIX-001.md) separates test classes and pending evidence. No manual-device gate is silently waived.
+
+## Risks
+- R1: user cannot recognize ink before an initial model download (accepted V1 constraint); setup progress, retry, storage availability and no-network UX require testing.
+- R2: IME accessibility and OEM/Android behavior variance.
+- R3: sensitive input privacy/focus races.
+- R4: stylus callback support differs from IME-hosted drawing surface.
+
+## Gates
+- Human: OFFLINE-001 approved as option B on 2026-10-09; preserve any separate architecture/device/PR review or merge gates when they arise.
+- Automated: GitHub Actions run `37995370625` on commit `1999d90f` passed `assembleDebug`, `lintDebug` and `testDebugUnitTest`; subsequent documentation/CI artifact commits require exact-HEAD recheck. This is a build and isolated test gate, not emulator/device/airplane-mode proof.
+
+## Visual design reference (V2.1 APPROVED VISUAL)
+- Art concept: [CHI-ART-CONCEPT-001](../../docs/design/CHI-ART-CONCEPT-001.md), VG-01/VG-02 PASS 2026-10-10: same IME panel for ink/voice, persistent mic, dark default, light secondary.
+- S01–S05 map to onboarding, IME canvas, candidates/explicit insert, initial model download and sensitive editors.
+- Approved visual baseline does not imply Android runtime evidence or change OFFLINE-001=B. VG-03/VG-04/VG-05 remain open. Implement only after appropriate design gate and device/accessibility validation.
+
+## T010 — EditorGateway seam (2026-10-12; CI pending)
+- Pure Kotlin `EditorGateway` mediates explicit space/backspace and future candidate commits; the IME resolves the active `currentInputConnection` only when the action executes.
+- Future candidate commits require a focus-generation token and fail closed for null, unsupported, sensitive or stale editors. Manual space/delete remains available in an active sensitive editor; ink capture stays blocked there.
+- Editor start/finish and input-view lifecycle transitions invalidate previous tokens. Candidate UI and recognizer remain T011–T014.
+- CI's bounded post-install registry discovery wait does not waive IME activation or instrumentation assertions.
+
+## T012 — RecognitionCoordinator seam (2026-10-12; verification pending)
+- Pure Kotlin `recognition/InkRecognizer` is an async, cancellable adapter contract. No vendor, dependency, model download or network permission is selected or added.
+- `RecognitionCoordinator` invalidates pending work and transient candidates on caller lifecycle/focus/ink changes. Request IDs discard late callbacks even from recognizers that ignore cancellation; caller must invoke `invalidate()` on every such transition.
+- Only explicit single-use candidate selection can reach the caller-provided commit function, and only for the editor epoch captured at submission. The IME will wire this to `EditorGateway.commitCandidate` under T011/T014; there is currently **no** recognition request from the UI and no text insertion from recognition.
+- Distinct empty/unavailable/error outcomes are fail-closed. No raw text is logged/persisted/uploaded. Eleven deterministic unit cases require CI confirmation.

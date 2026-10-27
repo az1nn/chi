@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chi</string>
+    <string name="ime_name">Chi — escrita à mão</string>
+    <string name="ime_subtype">Português (Brasil)</string>
+    <string name="ime_title">Chi · escrita à mão</string>
+    <string name="ime_placeholder">Captura de escrita indisponível nesta fundação. Nenhum traço é coletado.</string>
+    <string name="ime_ink_status">Escreva com a caneta. Traços só na memória; reconhecimento ainda indisponível.</string>
+    <string name="ime_sensitive">Campo sensível: captura e reconhecimento desativados.</string>
+    <string name="ink_canvas_accessibility">Área de escrita à mão com caneta. Ainda não converte em texto.</string>
+    <string name="ink_clear">Limpar</string>
+    <string name="candidate_unavailable">Prévia: reconhecimento offline ainda não integrado.</string>
+    <string name="candidate_sensitive">Prévia indisponível neste campo.</string>
+    <string name="candidate_processing">Reconhecendo escrita…</string>
+    <string name="candidate_failed">Não foi possível reconhecer. Revise a escrita.</string>
+    <string name="candidate_preview">Prévia: %1$s</string>
+    <string name="candidate_insert">Inserir</string>
+    <string name="candidate_insert_accessibility">Inserir candidato confirmado no campo atual</string>
+    <string name="candidate_choice_accessibility">Candidato %1$d: %2$s</string>
+    <string name="voice_icon">🎤</string>
+    <string name="voice_unavailable">Microfone indisponível nesta versão</string>
+    <string name="key_space">Espaço</string>
+    <string name="key_delete">Apagar</string>
+    <string name="key_switch">Trocar</string>
+    <string name="key_switch_accessibility">Trocar para outro teclado</string>
+    <string name="setup_title">Configurar Chi</string>
+    <string name="setup_description">Ative o Chi nas configurações do Android, selecione-o como teclado e teste abaixo.</string>
+    <string name="setup_privacy_warning">Atenção: um teclado pode acessar o texto digitado. Chi ainda é experimental: escrita não é transcrita e voz está indisponível. Não use para dados sensíveis.</string>
+    <string name="setup_enable">1. Habilitar Chi no Android</string>
+    <string name="setup_select">2. Selecionar teclado</string>
+    <string name="setup_status_disabled">Status: Chi não habilitado.</string>
+    <string name="setup_status_enabled">Status: habilitado; selecione Chi no seletor.</string>
+    <string name="setup_status_selected">Status: Chi selecionado; toque no campo de teste.</string>
+    <string name="setup_settings_unavailable">Configurações de teclado indisponíveis neste dispositivo.</string>
+    <string name="setup_test_label">3. Teste local (traços sem transcrição; espaço, apagar e limpar)</string>
+    <string name="setup_test_hint">Toque para abrir o teclado</string>
+</resources>
